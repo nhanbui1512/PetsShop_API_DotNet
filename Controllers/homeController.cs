@@ -1,22 +1,25 @@
 
 using Microsoft.AspNetCore.Mvc;
+using petshop.Data;
 
-namespace petshop
+namespace petshop.Controllers
 {
     [Route("/api/home")]
     [ApiController]
     public class HomeController : ControllerBase
     {
 
-        [HttpGet]
-        public IActionResult home()
-        {
-            return Ok("Hello world");
-        }
+        private readonly AppDbContext _dbContext;
 
-        [HttpPost]
-        public IActionResult GetProduct(){
-            return Ok();
+        public HomeController(AppDbContext productDbContext)
+        {
+            _dbContext = productDbContext;
+        }
+        [HttpGet]
+        public IActionResult getUsers()
+        {
+            var result = _dbContext.Users;
+            return Ok(result);
         }
     }
 }
