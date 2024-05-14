@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using petshop.Data;
 
@@ -10,9 +11,11 @@ using petshop.Data;
 namespace petshop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240514114120_productTable")]
+    partial class productTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,20 +26,16 @@ namespace petshop.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("create_at");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("ProductName")
-                        .HasColumnType("longtext")
-                        .HasColumnName("product_name");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("update_at");
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
