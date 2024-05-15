@@ -14,9 +14,9 @@ namespace petshop.Controllers
 
         private readonly AppDbContext _dbContext;
 
-        public UserController(AppDbContext productDbContext)
+        public UserController(AppDbContext userContext)
         {
-            _dbContext = productDbContext;
+            _dbContext = userContext;
         }
         [HttpGet]
         public async Task<IActionResult> GetUsers()

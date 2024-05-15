@@ -12,9 +12,9 @@ namespace petshop.Models
     [Column("product_name")]
     public string? ProductName { get; set; }
     [Column("create_at")]
-    public DateTime CreateAt { get; set; }
+    public DateTime CreateAt { get; set; } = new DateTime();
     [Column("update_at")]
-    public DateTime UpdateAt { get; set; }
+    public DateTime UpdateAt { get; set; } = new DateTime();
   }
 
 }
