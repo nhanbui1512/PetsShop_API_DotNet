@@ -11,6 +11,12 @@ namespace petshop.Data
 
     }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+      // Tắt logging
+      optionsBuilder.UseLoggerFactory(null);
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Product> Products { get; set; }
 
