@@ -5,22 +5,25 @@ namespace api.Mappers
 {
   public static class UserMappers
   {
-    public static userDTO toUserDTO(this User userObject)
+
+    public static UserDTO ToUserDTO(this User userObject)
     {
-      return new userDTO
+      return new UserDTO
       {
-        Id = userObject.Id,
-        UserName = userObject.UserName,
-        Email = userObject.Email,
+        FirstName = userObject.FirstName,
+        LastName = userObject.LastName,
         Gender = userObject.Gender,
+        Password = userObject.Password,
+        Email = userObject.Email
       };
     }
 
-    public static User ToFormCreateUser(this CreateUserDOT form)
+    public static User ToFormCreateUser(this CreateUserDTO form)
     {
       return new User
       {
-        UserName = form.UserName,
+        FirstName = form.FirstName,
+        LastName = form.LastName,
         Gender = form.Gender,
         Password = form.Password,
         Email = form.Email

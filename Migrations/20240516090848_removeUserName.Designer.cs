@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using petshop.Data;
 
@@ -10,9 +11,11 @@ using petshop.Data;
 namespace petshop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240516090848_removeUserName")]
+    partial class removeUserName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,29 +53,22 @@ namespace petshop.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id");
 
-                    b.Property<string>("Avatar")
-                        .HasColumnType("longtext")
-                        .HasColumnName("avatar");
-
                     b.Property<string>("Email")
-                        .HasColumnType("longtext")
-                        .HasColumnName("email");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("longtext")
                         .HasColumnName("first_name");
 
                     b.Property<bool>("Gender")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("gender");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("LastName")
                         .HasColumnType("longtext")
                         .HasColumnName("last_name");
 
                     b.Property<string>("Password")
-                        .HasColumnType("longtext")
-                        .HasColumnName("password");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

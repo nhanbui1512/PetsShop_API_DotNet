@@ -21,7 +21,7 @@ namespace petshop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var result = await _dbContext.Users.Select(user => user.toUserDTO()).ToListAsync();
+            var result = await _dbContext.Users.Select(user => user.ToUserDTO()).ToListAsync();
             return Ok(result);
         }
         [HttpGet("{id}")]
@@ -30,7 +30,7 @@ namespace petshop.Controllers
             var user = await _dbContext.Users.FindAsync(id);
             if (user != null)
             {
-                return Ok(user.toUserDTO());
+                return Ok(user);
             }
             else
             {
@@ -38,7 +38,7 @@ namespace petshop.Controllers
             }
         }
         [HttpPost]
-        public IActionResult CreateUser([FromBody] CreateUserDOT formData)
+        public IActionResult CreateUser([FromBody] CreateUserDTO formData)
         {
             var isExist = _dbContext.Users.SingleOrDefault(user => user.Email == formData.Email);
             if (isExist != null)
@@ -48,7 +48,7 @@ namespace petshop.Controllers
             var userObject = formData.ToFormCreateUser();
             _dbContext.Users.Add(userObject);
             _dbContext.SaveChanges();
-            return CreatedAtAction(nameof(GetUserById), new { id = userObject.Id }, userObject.toUserDTO());
+            return CreatedAtAction(nameof(GetUserById), new { id = userObject.Id }, userObject);
         }
     }
 }
