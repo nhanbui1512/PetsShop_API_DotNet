@@ -38,17 +38,22 @@ namespace petshop.Controllers
             }
         }
         [HttpPost]
-        public IActionResult CreateUser([FromBody] CreateUserDTO formData)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO formData)
         {
-            var isExist = _dbContext.Users.SingleOrDefault(user => user.Email == formData.Email);
+            string email = formData.Email;
+            var isExist = await _dbContext.Users.SingleOrDefaultAsync(user => user.Email == email);
             if (isExist != null)
             {
-                return Conflict(new { message = "Email already exists", status = 409 });
+                return new JsonResult(new { message = "Email already exists", status = 409 }) { StatusCode = 409 };
             }
-            var userObject = formData.ToFormCreateUser();
-            _dbContext.Users.Add(userObject);
-            _dbContext.SaveChanges();
-            return CreatedAtAction(nameof(GetUserById), new { id = userObject.Id }, userObject);
+            else
+            {
+                var userObject = formData.ToFormCreateUser();
+                _dbContext.Users.Add(userObject);
+                await _dbContext.SaveChangesAsync();
+                return CreatedAtAction(nameof(GetUserById), new { id = userObject.Id }, userObject);
+            }
+
         }
     }
 }

@@ -4,8 +4,7 @@ namespace petshop.Dtos.Product
     {
 
         public string? ProductName { get; set; }
-        public string? Email { get; set; }
-        public string? Password { get; set; }
-        public bool Gender { get; set; }
+        public string? Image { get; set; }
+        public string? Price { get; set; }
     }
 }

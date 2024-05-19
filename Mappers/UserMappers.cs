@@ -14,7 +14,8 @@ namespace api.Mappers
         LastName = userObject.LastName,
         Gender = userObject.Gender,
         Password = userObject.Password,
-        Email = userObject.Email
+        Email = userObject.Email,
+        Avatar = userObject.Avatar
       };
     }
 
@@ -26,7 +27,8 @@ namespace api.Mappers
         LastName = form.LastName,
         Gender = form.Gender,
         Password = form.Password,
-        Email = form.Email
+        Email = form.Email,
+        Avatar = "DefaultAvatar.png"
       };
     }
   }
