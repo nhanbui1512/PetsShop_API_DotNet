@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 
 namespace petshop.Models
@@ -11,6 +12,7 @@ namespace petshop.Models
     public int Id { get; set; }
 
     [Column("first_name")]
+    // [JsonPropertyName("FirstName")]
     public string? FirstName { get; set; }
     [Column("last_name")]
     public string? LastName { get; set; }
