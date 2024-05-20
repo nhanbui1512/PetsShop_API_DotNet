@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.User;
+using petshop.Migrations;
+using PetsShop_API_DotNet.Dtos.User;
 
 namespace petshop.Controllers
 {
@@ -53,6 +55,29 @@ namespace petshop.Controllers
                 await _dbContext.SaveChangesAsync();
                 return CreatedAtAction(nameof(GetUserById), new { id = userObject.Id }, userObject);
             }
+
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserDTO updateUser)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
+            if (user == null) return NotFound();
+
+            user.FirstName = updateUser.FirstName;
+            user.LastName = updateUser.LastName;
+            user.Gender = updateUser.Gender;
+            await _dbContext.SaveChangesAsync();
+            return new JsonResult(new
+            {
+                userId = user.Id,
+                email = user.Email,
+                firstName = user.FirstName,
+                lastName = user.LastName,
+                gender = user.Gender,
+            })
+            { StatusCode = 200 };
 
         }
     }
