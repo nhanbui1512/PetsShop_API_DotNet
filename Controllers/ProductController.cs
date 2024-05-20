@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
+using petshop.Dtos.Product;
 
 namespace petshop.Controllers
 {
@@ -22,6 +23,12 @@ namespace petshop.Controllers
         {
             var products = await _dbContext.Products.ToListAsync();
             return Ok(products);
+        }
+
+        [HttpPost]
+        public IActionResult CreateProduct([FromBody] CreateProductDTO form)
+        {
+            return Ok();
         }
     }
 }

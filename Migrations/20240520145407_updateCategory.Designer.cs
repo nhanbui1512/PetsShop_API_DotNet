@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using petshop.Data;
 
@@ -10,9 +11,11 @@ using petshop.Data;
 namespace petshop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520145407_updateCategory")]
+    partial class updateCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,10 +88,6 @@ namespace petshop.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext")
                         .HasColumnName("option_name");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)")
-                        .HasColumnName("price");
 
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
@@ -168,12 +167,7 @@ namespace petshop.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("password");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -190,18 +184,6 @@ namespace petshop.Migrations
                     b.HasOne("petshop.Models.Category", null)
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
-                });
-
-            modelBuilder.Entity("petshop.Models.User", b =>
-                {
-                    b.HasOne("PetsShop_API_DotNet.Models.Role", null)
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId");
-                });
-
-            modelBuilder.Entity("PetsShop_API_DotNet.Models.Role", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("petshop.Models.Category", b =>

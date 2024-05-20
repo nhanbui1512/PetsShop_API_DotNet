@@ -15,6 +15,7 @@ namespace petshop.Models
     public DateTime CreateAt { get; set; } = new DateTime();
     [Column("update_at")]
     public DateTime UpdateAt { get; set; } = new DateTime();
+    public List<Option> Options { get; set; } = new List<Option>();
   }
 
 }

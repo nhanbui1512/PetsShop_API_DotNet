@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using petshop.Models;
 
 namespace PetsShop_API_DotNet.Models
 {
@@ -16,6 +17,7 @@ namespace PetsShop_API_DotNet.Models
         public DateTime CreateAt { get; set; }
         [Column("update_at")]
         public DateTime UpdateAt { get; set; }
+        public List<User> Users { get; set; } = new List<User>();
 
     }
 }

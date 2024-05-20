@@ -5,13 +5,13 @@ namespace PetsShop_API_DotNet.Mappers
 {
     public static class RoleMappers
     {
-        public static Role ToUserObject(this CreateRoleDTO form)
+        public static Role ToRoleObject(this CreateRoleDTO form)
         {
             return new Role
             {
                 RoleName = form.RoleName,
-                CreateAt = new DateTime(),
-                UpdateAt = new DateTime(),
+                CreateAt = DateTime.Now,
+                UpdateAt = DateTime.Now,
             };
         }
     }
