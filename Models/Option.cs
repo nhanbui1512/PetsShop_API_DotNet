@@ -20,5 +20,8 @@ namespace petshop.Models
         [Column("update_at")]
         public DateTime UpdateAt { get; set; } = DateTime.Now;
 
+        public int ProductId { get; set; }
+        public Product? Product { get; set; }
+
     }
 }

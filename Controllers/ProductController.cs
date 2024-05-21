@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json.Nodes;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.Product;
+using petshop.Mappers;
+using petshop.Models;
 
 namespace petshop.Controllers
 {
@@ -26,9 +26,22 @@ namespace petshop.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProduct([FromBody] CreateProductDTO form)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO form)
         {
-            return Ok();
+
+            var Category = await _dbContext.Categories.FirstOrDefaultAsync(item => item.Id == form.CategoryId);
+            if (Category == null) return NotFound(new { message = "Not found category", status = 404 });
+
+            var NewProduct = new Product
+            {
+                ProductName = form.ProductName,
+            };
+            NewProduct.Category = Category;
+
+            _dbContext.Products.Add(NewProduct);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(NewProduct);
         }
     }
 }

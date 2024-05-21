@@ -90,7 +90,7 @@ namespace petshop.Migrations
                         .HasColumnType("decimal(65,30)")
                         .HasColumnName("price");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -115,7 +115,7 @@ namespace petshop.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateAt")
@@ -180,16 +180,24 @@ namespace petshop.Migrations
 
             modelBuilder.Entity("petshop.Models.Option", b =>
                 {
-                    b.HasOne("petshop.Models.Product", null)
+                    b.HasOne("petshop.Models.Product", "Product")
                         .WithMany("Options")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("petshop.Models.Product", b =>
                 {
-                    b.HasOne("petshop.Models.Category", null)
+                    b.HasOne("petshop.Models.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("petshop.Models.User", b =>
