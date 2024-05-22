@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.User;
-using petshop.Migrations;
 using PetsShop_API_DotNet.Dtos.User;
 
 namespace petshop.Controllers

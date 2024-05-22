@@ -29,18 +29,19 @@ namespace petshop.Controllers
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO form)
         {
 
-            var Category = await _dbContext.Categories.FirstOrDefaultAsync(item => item.Id == form.CategoryId);
-            if (Category == null) return NotFound(new { message = "Not found category", status = 404 });
+            var category = await _dbContext.Categories.FirstOrDefaultAsync(item => item.Id == form.CategoryId);
+            if (category == null) return NotFound(new { message = "Not found category", status = 404 });
 
             var NewProduct = new Product
             {
                 ProductName = form.ProductName,
+                Category = category,
+                CreateAt = DateTime.Now,
+                UpdateAt = DateTime.Now
             };
-            NewProduct.Category = Category;
 
-            _dbContext.Products.Add(NewProduct);
+            await _dbContext.Products.AddAsync(NewProduct);
             await _dbContext.SaveChangesAsync();
-
             return Ok(NewProduct);
         }
     }

@@ -13,9 +13,9 @@ namespace petshop.Models
     [Column("product_name")]
     public string? ProductName { get; set; }
     [Column("create_at")]
-    public DateTime CreateAt { get; set; } = new DateTime();
+    public DateTime CreateAt { get; set; } = DateTime.Now;
     [Column("update_at")]
-    public DateTime UpdateAt { get; set; } = new DateTime();
+    public DateTime UpdateAt { get; set; } = DateTime.Now;
     public List<Option> Options { get; set; } = new List<Option>();
 
     public int CategoryId { get; set; }

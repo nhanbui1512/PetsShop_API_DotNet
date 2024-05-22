@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -20,8 +21,9 @@ namespace petshop.Models
         [Column("update_at")]
         public DateTime UpdateAt { get; set; } = DateTime.Now;
 
+
         public int ProductId { get; set; }
-        public Product? Product { get; set; }
+        public virtual Product? Product { get; set; }
 
     }
 }
