@@ -8,6 +8,7 @@ namespace petshop.Models
   {
     [Key]
     [Column("id")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     [Column("product_name")]
     public string? ProductName { get; set; }
@@ -16,6 +17,9 @@ namespace petshop.Models
     [Column("update_at")]
     public DateTime UpdateAt { get; set; } = new DateTime();
     public List<Option> Options { get; set; } = new List<Option>();
+
+    public int CategoryId { get; set; }
+    public virtual Category? Category { get; set; }
   }
 
 }
