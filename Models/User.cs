@@ -1,14 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 
 namespace petshop.Models
 {
   public class User
   {
-    [Key]
     [Column("id")]
+    [Key]
     public int Id { get; set; }
 
     [Column("first_name")]
