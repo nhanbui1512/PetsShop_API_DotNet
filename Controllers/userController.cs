@@ -30,6 +30,7 @@ namespace petshop.Controllers
         public async Task<IActionResult> GetUserById([FromRoute] int id)
         {
             var user = await _dbContext.Users.FindAsync(id);
+            // fix
             if (user != null)
             {
                 return Ok(user);
