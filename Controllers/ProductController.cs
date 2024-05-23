@@ -32,12 +32,19 @@ namespace petshop.Controllers
             var category = await _dbContext.Categories.FirstOrDefaultAsync(item => item.Id == form.CategoryId);
             if (category == null) return NotFound(new { message = "Not found category", status = 404 });
 
+
+            var options = new List<Option>();
+            foreach (var item in form.CreateOptionDTOs)
+            {
+                options.Add(item.ToOptionObject());
+            }
             var NewProduct = new Product
             {
                 ProductName = form.ProductName,
                 Category = category,
                 CreateAt = DateTime.Now,
-                UpdateAt = DateTime.Now
+                UpdateAt = DateTime.Now,
+                Options = options
             };
 
             await _dbContext.Products.AddAsync(NewProduct);

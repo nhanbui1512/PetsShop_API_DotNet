@@ -15,6 +15,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+
+builder.Services.AddControllers().AddJsonOptions(option =>
+{
+    option.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    option.JsonSerializerOptions.MaxDepth = 64;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
