@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.Product;
+using petshop.Interfaces;
 using petshop.Mappers;
 using petshop.Models;
 
@@ -14,14 +15,16 @@ namespace petshop.Controllers
     public class ProductController : ControllerBase
     {
         private readonly AppDbContext _dbContext;
-        public ProductController(AppDbContext productContext)
+        private readonly IProductRepository _productRepo;
+        public ProductController(AppDbContext productContext, IProductRepository productRepo)
         {
             this._dbContext = productContext;
+            _productRepo = productRepo;
         }
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _dbContext.Products.ToListAsync();
+            var products = await _productRepo.GetAllAsync();
             return Ok(products);
         }
 

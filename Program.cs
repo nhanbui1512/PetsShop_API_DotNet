@@ -1,5 +1,9 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
+using petshop.Interfaces;
+using petshop.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +22,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllers().AddJsonOptions(option =>
 {
-    option.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    option.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    option.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+    option.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    option.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
     option.JsonSerializerOptions.MaxDepth = 64;
 });
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
