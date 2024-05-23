@@ -51,5 +51,22 @@ namespace petshop.Controllers
             await _dbContext.SaveChangesAsync();
             return Ok(NewProduct);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
+        {
+
+            var product = await _dbContext.Products.FirstOrDefaultAsync(item => item.Id == id);
+            if (product == null) return NotFound(new { messagge = "not found" });
+            else
+            {
+                _dbContext.Products.Remove(product);
+                _dbContext.SaveChanges();
+                return NoContent();
+
+            }
+
+        }
     }
 }

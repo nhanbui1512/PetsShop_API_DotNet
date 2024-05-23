@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PetsShop_API_DotNet.Models;
 
 namespace petshop.Models
 {
@@ -23,6 +24,10 @@ namespace petshop.Models
 
     [Column("gender")]
     public bool Gender { get; set; }
+
+    public int RoleId { get; set; }
+    public Role? Role { get; set; }
+
   }
 
 }
