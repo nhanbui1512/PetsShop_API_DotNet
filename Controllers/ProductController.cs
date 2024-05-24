@@ -61,12 +61,12 @@ namespace petshop.Controllers
         {
 
             var product = await _dbContext.Products.FirstOrDefaultAsync(item => item.Id == id);
-            if (product == null) return NotFound(new { messagge = "not found" });
+            if (product == null) return NotFound();
             else
             {
                 _dbContext.Products.Remove(product);
                 _dbContext.SaveChanges();
-                return NoContent();
+                return new JsonResult(new { message = "Delete product successfully" }) { StatusCode = 200 };
 
             }
 

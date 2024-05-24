@@ -23,13 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllers().AddJsonOptions(option =>
 {
-    option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-    option.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    option.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-    option.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    option.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
-    option.JsonSerializerOptions.WriteIndented = true;
     option.JsonSerializerOptions.MaxDepth = 64;
 });
 

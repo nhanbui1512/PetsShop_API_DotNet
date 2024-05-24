@@ -16,7 +16,7 @@ namespace petshop.Repository
         }
         public Task<List<Product>> GetAllAsync()
         {
-            return _context.Products.ToListAsync();
+            return _context.Products.Include(product => product.Category).Include(product => product.Options).ToListAsync();
         }
     }
 }
