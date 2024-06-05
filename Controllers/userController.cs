@@ -28,7 +28,9 @@ namespace petshop.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById([FromRoute] int id)
         {
-            var user = await _dbContext.Users.FindAsync(id);
+            Console.WriteLine(id);
+
+            var user = await _dbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
             // fix
             if (user != null)
             {
@@ -51,6 +53,9 @@ namespace petshop.Controllers
             else
             {
                 var userObject = formData.ToFormCreateUser();
+                var role = await _dbContext.Roles.FindAsync(userObject.RoleId);
+                if (role == null) return NotFound(new { role = "Not found role" });
+                userObject.Role = role;
                 _dbContext.Users.Add(userObject);
                 await _dbContext.SaveChangesAsync();
                 return CreatedAtAction(nameof(GetUserById), new { id = userObject.Id }, userObject);

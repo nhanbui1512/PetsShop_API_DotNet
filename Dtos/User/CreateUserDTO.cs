@@ -8,5 +8,6 @@ namespace petshop.Dtos.User
         public string Email { get; set; } = String.Empty;
         public string Password { get; set; } = String.Empty;
         public bool Gender { get; set; }
+        public int RoleId { get; set; }
     }
 }

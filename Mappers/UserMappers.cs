@@ -28,7 +28,8 @@ namespace api.Mappers
         Gender = form.Gender,
         Password = form.Password,
         Email = form.Email,
-        Avatar = "DefaultAvatar.png"
+        Avatar = "DefaultAvatar.png",
+        RoleId = form.RoleId
       };
     }
   }
