@@ -8,7 +8,7 @@ using PetsShop_API_DotNet.Dtos.User;
 
 namespace petshop.Controllers
 {
-    [Route("/api/user")]
+    [Route("/api/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -43,7 +43,11 @@ namespace petshop.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO formData)
+
         {
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             string email = formData.Email;
             var isExist = await _dbContext.Users.SingleOrDefaultAsync(user => user.Email == email);
             if (isExist != null)
@@ -64,7 +68,7 @@ namespace petshop.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserDTO updateUser)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
