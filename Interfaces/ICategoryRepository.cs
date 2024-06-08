@@ -10,7 +10,7 @@ namespace petshop.Interfaces
         Task<List<CategoryDTO>> GetAll();
         Task<CategoryDTO> GetById(int id);
         Task<CategoryDTO> Add(CreateCategoryDTO data);
-        void Update(UpdateCategoryDTO data);
+        Task<CategoryDTO> Update(UpdateCategoryDTO data, int id);
         void Remove(int id);
     }
 }

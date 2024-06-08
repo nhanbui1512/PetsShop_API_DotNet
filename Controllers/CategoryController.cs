@@ -1,5 +1,8 @@
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
 using petshop.Data;
+using petshop.Dtos.Category;
+using petshop.Dtos.Product;
 using petshop.Interfaces;
 
 namespace PetsShop_API_DotNet.Controllers
@@ -18,11 +21,37 @@ namespace PetsShop_API_DotNet.Controllers
             _repository = repository;
         }
 
+        // [GET] /api/categories
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var categories = await _repository.GetAll();
             return Ok(categories);
+        }
+
+        // [POST] /api/categories 
+        [HttpPost]
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDTO data)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var result = await _repository.Add(data);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> FindById([FromRoute] int id)
+        {
+            var category = await _repository.GetById(id);
+            if (category == null) return NotFound(new { message = "Not found category" });
+            return Ok(category);
+        }
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCategoryDTO data)
+        {
+            var result = await _repository.Update(data, id);
+            if (result == null) return NotFound(new { message = "Not found category" });
+            return Ok(new { status = "Success", newData = result });
         }
     }
 }

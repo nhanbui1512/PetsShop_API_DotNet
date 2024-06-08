@@ -28,7 +28,6 @@ namespace petshop.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById([FromRoute] int id)
         {
-            Console.WriteLine(id);
 
             var user = await _dbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
             // fix

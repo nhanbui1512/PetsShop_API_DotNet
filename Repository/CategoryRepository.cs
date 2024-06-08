@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.Category;
 using petshop.Dtos.Product;
 using petshop.Interfaces;
+using petshop.Models;
 
 namespace petshop.Repository
 {
@@ -18,9 +20,28 @@ namespace petshop.Repository
         {
             this._context = context;
         }
-        public Task<CategoryDTO> Add(CreateCategoryDTO data)
+
+
+        public async Task<CategoryDTO> Add(CreateCategoryDTO data)
         {
-            throw new NotImplementedException();
+
+            var newCategory = new Category
+            {
+                CategoryName = data.CategoryName,
+                Description = data.Description,
+            };
+
+            _context.Categories.Add(newCategory);
+            await _context.SaveChangesAsync();
+
+            return new CategoryDTO
+            {
+                Id = newCategory.Id,
+                CategoryName = newCategory.CategoryName,
+                Description = newCategory.Description,
+                CreatedAt = newCategory.CreateAt,
+                UpdatedAt = newCategory.UpdateAt
+            };
         }
 
         public async Task<List<CategoryDTO>> GetAll()
@@ -36,9 +57,12 @@ namespace petshop.Repository
             return categories;
         }
 
-        public Task<CategoryDTO> GetById(int id)
+        public async Task<CategoryDTO> GetById(int id)
         {
-            throw new NotImplementedException();
+
+            var result = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+            if (result == null) return null; // Trả về null nếu không tìm thấy Category
+            return new CategoryDTO { Id = result.Id, CategoryName = result.CategoryName, CreatedAt = result.CreateAt, UpdatedAt = result.UpdateAt };
         }
 
         public void Remove(int id)
@@ -46,9 +70,25 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public void Update(UpdateCategoryDTO data)
+        public async Task<CategoryDTO> Update(UpdateCategoryDTO data, int id)
         {
-            throw new NotImplementedException();
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null) return null;
+
+            if (data.CategoryName != null) category.CategoryName = data.CategoryName;
+            if (data.Description != null) category.Description = data.Description;
+            category.UpdateAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            return new CategoryDTO
+            {
+                Id = category.Id,
+                CategoryName = category.CategoryName,
+                Description = category.Description,
+                CreatedAt = category.CreateAt,
+                UpdatedAt = category.UpdateAt,
+            };
+
         }
     }
 }
