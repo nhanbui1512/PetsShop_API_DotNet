@@ -1,4 +1,6 @@
 
+using petshop.Dtos.Role;
+
 namespace petshop.Dtos.User
 {
     public class UserDTO
@@ -10,5 +12,6 @@ namespace petshop.Dtos.User
         public string? Password { get; set; }
         public string? Avatar { get; set; }
         public bool Gender { get; set; }
+        public RoleDTO? Role { get; set; }
     }
 }

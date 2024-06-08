@@ -48,6 +48,7 @@ namespace petshop.Repository
         {
             var categories = await _context.Categories.Select(c => new CategoryDTO
             {
+                Id = c.Id,
                 CategoryName = c.CategoryName,
                 Description = c.Description,
                 CreatedAt = c.CreateAt,

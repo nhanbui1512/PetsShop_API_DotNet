@@ -12,12 +12,10 @@ namespace PetsShop_API_DotNet.Controllers
     public class CategoryController : ControllerBase
     {
 
-        private readonly AppDbContext _dbContext;
         private readonly ICategoryRepository _repository;
 
-        public CategoryController(AppDbContext context, ICategoryRepository repository)
+        public CategoryController(ICategoryRepository repository)
         {
-            _dbContext = context;
             _repository = repository;
         }
 

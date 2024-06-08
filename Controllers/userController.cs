@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.User;
+using petshop.Interfaces;
+
 using PetsShop_API_DotNet.Dtos.User;
 
 namespace petshop.Controllers
@@ -14,15 +16,17 @@ namespace petshop.Controllers
     {
 
         private readonly AppDbContext _dbContext;
+        private readonly IUserRepository _repository;
 
-        public UserController(AppDbContext userContext)
+        public UserController(AppDbContext userContext, IUserRepository repository)
         {
             _dbContext = userContext;
+            _repository = repository;
         }
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var result = await _dbContext.Users.Select(user => user.ToUserDTO()).ToListAsync();
+            var result = await _repository.GetAll();
             return Ok(result);
         }
         [HttpGet("{id}")]
