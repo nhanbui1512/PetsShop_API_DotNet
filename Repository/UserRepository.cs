@@ -50,9 +50,14 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public void Remove(int id)
+        public async Task<bool> Remove(int id)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+            if (user == null) return false;
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public Task<UserDTO> Update(UpdateUserDTO data, int id)

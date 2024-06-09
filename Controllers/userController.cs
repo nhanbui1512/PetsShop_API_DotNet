@@ -92,5 +92,14 @@ namespace petshop.Controllers
             { StatusCode = 200 };
 
         }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] int id)
+        {
+            bool result = await _repository.Remove(id);
+            if (result == false) return NotFound(new { message = "Not found User" });
+            return Ok(new { message = "Delete success" });
+        }
     }
 }

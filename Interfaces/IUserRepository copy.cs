@@ -13,6 +13,6 @@ namespace petshop.Interfaces
         Task<UserDTO> GetById(int id);
         Task<UserDTO> Add(CreateUserDTO data);
         Task<UserDTO> Update(UpdateUserDTO data, int id);
-        void Remove(int id);
+        Task<bool> Remove(int id);
     }
 }
