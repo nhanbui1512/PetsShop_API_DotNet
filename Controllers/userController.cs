@@ -46,7 +46,6 @@ namespace petshop.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO formData)
-
         {
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
