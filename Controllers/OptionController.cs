@@ -25,5 +25,12 @@ namespace petshop.Controllers
             if (data == null) return NotFound(new { message = "Not found product" });
             return Ok(data);
         }
+
+        [HttpDelete]
+        [Route("option_id:int")]
+        public async Task<IActionResult> DeleteOption([FromRoute] int option_id){
+            
+            return Ok();
+        }
     }
 }

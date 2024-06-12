@@ -28,9 +28,10 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<UserDTO>> GetAll()
+        public async Task<List<UserDTO>> GetAll(GetUserDTO data)
         {
-            var users = await _context.Users.Include(u => u.Role).Select(u => new UserDTO
+
+            var allUsers = await _context.Users.Include(u => u.Role).Select(u => new UserDTO
             {
                 Id = u.Id,
                 FirstName = u.FirstName,
@@ -42,7 +43,14 @@ namespace petshop.Repository
 
             }).ToListAsync();
 
-            return users;
+
+            if (!string.IsNullOrEmpty(data.Search))
+            {
+                allUsers = allUsers.Where(u => u.Email.Contains(data.Search) || u.FirstName.Contains(data.Search) || u.LastName.Contains(data.Search)).ToList();
+            }
+
+            var result = allUsers.Skip((data.Page - 1) * data.PerPage).Take(data.PerPage).ToList();
+            return result;
         }
 
         public Task<UserDTO> GetById(int id)

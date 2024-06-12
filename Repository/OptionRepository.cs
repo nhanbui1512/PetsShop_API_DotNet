@@ -31,6 +31,7 @@ namespace petshop.Repository
 
         public async Task<List<OptionDTO>> GetByProductId(int productId)
         {
+
             var product = await _context.Products.Include(p => p.Options).FirstOrDefaultAsync(p => p.Id == productId);
             if (product == null) return null;
 

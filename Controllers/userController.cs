@@ -1,4 +1,5 @@
 
+using System.ComponentModel.DataAnnotations;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,9 +25,10 @@ namespace petshop.Controllers
             _repository = repository;
         }
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromBody] GetUserDTO data)
         {
-            var result = await _repository.GetAll();
+            if (data.PerPage == 0) data.PerPage = 5;
+            var result = await _repository.GetAll(data);
             return Ok(result);
         }
         [HttpGet("{id}")]
