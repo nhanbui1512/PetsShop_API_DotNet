@@ -25,8 +25,9 @@ namespace petshop.Controllers
             _repository = repository;
         }
         [HttpGet]
-        public async Task<IActionResult> GetUsers([FromBody] GetUserDTO data)
+        public async Task<IActionResult> GetUsers(int page, int perPage, string? sort, string? search)
         {
+            GetUserDTO data = new GetUserDTO { Page = page, PerPage = perPage, Search = search, Sort = sort };
             if (data.PerPage == 0) data.PerPage = 5;
             var result = await _repository.GetAll(data);
             return Ok(result);
