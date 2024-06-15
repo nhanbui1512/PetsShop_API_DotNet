@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Interfaces;
+using petshop.Middlewares;
 using petshop.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +46,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Sử dụng extension method để thêm middleware
+app.UseCustomMiddlewareForUser();
+
 app.MapControllers();
+
 app.Run();
