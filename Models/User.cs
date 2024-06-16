@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PetsShop_API_DotNet.Models;
 
 namespace petshop.Models
@@ -21,6 +22,12 @@ namespace petshop.Models
     public string? Password { get; set; }
     [Column("avatar")]
     public string? Avatar { get; set; } = "DefaultAvatar.png";
+
+    [Column("access_token")]
+    public string? AccessToken { get; set; }
+
+    [Column("refresh_token")]
+    public string? RefreshToken { get; set; }
 
     [Column("gender")]
     public bool Gender { get; set; }
