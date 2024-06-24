@@ -13,7 +13,6 @@ namespace api.Mappers
         FirstName = userObject.FirstName,
         LastName = userObject.LastName,
         Gender = userObject.Gender,
-        Password = userObject.Password,
         Email = userObject.Email,
         Avatar = userObject.Avatar
       };
