@@ -40,7 +40,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IOptionRepository, OptionRepository>();
 
 
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
 
 builder.Services.AddAuthentication(x =>
 {
@@ -71,7 +71,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

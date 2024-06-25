@@ -1,4 +1,3 @@
-
 namespace petshop.Middlewares
 {
     public class AuthMiddleware
@@ -12,11 +11,14 @@ namespace petshop.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            // Logic của bạn ở đây
-            // Ví dụ: kiểm tra quyền truy cập
-            // context.User.Identity.IsAuthenticated
 
-            // Gọi middleware tiếp theo trong pipeline
+            if (context.User.Identity!.IsAuthenticated)
+            {
+                var userClaims = context.User.Claims;
+                var userId = userClaims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+                var userEmail = userClaims.FirstOrDefault(c => c.Type == "Email")?.Value;
+            }
+
             await _next(context);
         }
     }

@@ -1,6 +1,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using api.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
@@ -24,6 +25,7 @@ namespace petshop.Controllers
             _dbContext = userContext;
             _repository = repository;
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUsers(int page, int perPage, string? sort, string? search)
         {
