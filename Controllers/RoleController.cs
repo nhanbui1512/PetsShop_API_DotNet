@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
@@ -35,6 +36,7 @@ namespace PetsShop_API_DotNet.Controllers
 
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateRole([FromBody] CreateRoleDTO formData)
         {
             try

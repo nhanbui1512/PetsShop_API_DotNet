@@ -1,5 +1,7 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using petshop.Dtos.Option;
 using petshop.Interfaces;
 
 namespace petshop.Controllers
@@ -26,11 +28,22 @@ namespace petshop.Controllers
             return Ok(data);
         }
 
+        [Authorize]
         [HttpDelete]
-        [Route("option_id:int")]
-        public async Task<IActionResult> DeleteOption([FromRoute] int option_id){
-            
+        public async Task<IActionResult> DeleteOption([FromRoute] int option_id)
+        {
+
             return Ok();
+        }
+
+        [Authorize]
+        [HttpPatch]
+        [Route("{option_id:int}")]
+        public async Task<IActionResult> UpdateOption([FromBody] UpdateOptionDTO data, [FromRoute] int option_id)
+        {
+            var result = await _repository.Update(data, option_id);
+            if (result == null) return NotFound(new { message = "Not found option" });
+            return Ok(result);
         }
     }
 }

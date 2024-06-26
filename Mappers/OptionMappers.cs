@@ -20,5 +20,18 @@ namespace petshop.Mappers
                 UpdateAt = DateTime.Now,
             };
         }
+
+        public static OptionDTO ToOptionDTO(this Option option)
+        {
+            return new OptionDTO
+            {
+                Id = option.Id,
+                Name = option.Name,
+                Quantity = option.Quantity,
+                Price = option.Price,
+                UpdateAt = option.UpdateAt,
+                CreatedAt = option.CreateAt
+            };
+        }
     }
 }

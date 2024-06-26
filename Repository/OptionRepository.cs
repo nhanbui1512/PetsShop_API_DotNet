@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.Option;
 using petshop.Interfaces;
+using petshop.Mappers;
 
 namespace petshop.Repository
 {
@@ -57,9 +58,17 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public Task<OptionDTO> Update(UpdateOptionDTO data, int id)
+        public async Task<OptionDTO> Update(UpdateOptionDTO data, int id)
         {
-            throw new NotImplementedException();
+            var option = await _context.Options.FindAsync(id);
+            if (option == null) return null;
+
+            if (data.Name != null) option.Name = data.Name;
+            if (data.Price != null) option.Price = data.Price;
+            if (data.Quantity != null) option.Quantity = data.Quantity;
+            option.UpdateAt = DateTime.Now;
+            return option.ToOptionDTO();
+
         }
     }
 }
