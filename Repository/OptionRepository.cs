@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.Option;
@@ -53,9 +54,10 @@ namespace petshop.Repository
             return data;
         }
 
-        public void Remove(int id)
+        public async void Remove(int id)
         {
-            throw new NotImplementedException();
+            var option = await _context.Options.FirstOrDefaultAsync(o => o.Id == id);
+            if (option != null) _context.Options.Remove(option);
         }
 
         public async Task<OptionDTO> Update(UpdateOptionDTO data, int id)

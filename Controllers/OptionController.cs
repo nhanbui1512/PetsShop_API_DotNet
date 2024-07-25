@@ -30,9 +30,10 @@ namespace petshop.Controllers
 
         [Authorize]
         [HttpDelete]
-        public async Task<IActionResult> DeleteOption([FromRoute] int option_id)
+        [Route("{option_id:int}")]
+        public IActionResult DeleteOption([FromRoute] int option_id)
         {
-
+            _repository.Remove(option_id);
             return Ok();
         }
 
