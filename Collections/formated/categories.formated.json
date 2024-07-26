@@ -1,0 +1,50 @@
+[
+  {
+    "_id": "660fb6a1284e112c153c8c5b",
+    "name": "Đồ chơi chó mèo",
+    "description": "Đồ chơi chó mèo là một bộ sưu tập các sản phẩm giải trí dành cho thú cưng của bạn, được thiết kế đặc biệt để kích thích hoạt động vận động, rèn luyện trí thông minh và tạo ra môi trường giải trí tích cực cho chó và mèo",
+    "createdAt": "2024-04-05T08:30:25.776Z",
+    "updatedAt": "2024-04-05T08:30:25.776Z",
+    "__v": 0
+  },
+  {
+    "_id": "660fb6da284e112c153c8c5d",
+    "name": "Dụng cụ vệ sinh",
+    "description": "Dụng cụ vệ sinh chuyên dụng dành cho chó mèo",
+    "createdAt": "2024-04-05T08:31:22.383Z",
+    "updatedAt": "2024-04-05T08:31:22.383Z",
+    "__v": 0
+  },
+  {
+    "_id": "660fb82a284e112c153c8c5f",
+    "name": "Sữa tắm",
+    "description": "Sửa tắm chuyên dụng dành cho chó mèo",
+    "createdAt": "2024-04-05T08:36:58.668Z",
+    "updatedAt": "2024-04-05T08:36:58.668Z",
+    "__v": 0
+  },
+  {
+    "_id": "660fb853284e112c153c8c61",
+    "name": "Thức ăn chó",
+    "description": "Thức ăn dành riêng cho chó",
+    "createdAt": "2024-04-05T08:37:39.188Z",
+    "updatedAt": "2024-04-05T08:37:39.188Z",
+    "__v": 0
+  },
+  {
+    "_id": "660fb85c284e112c153c8c63",
+    "name": "Thức ăn mèo",
+    "description": "Thức ăn dành riêng cho mèo",
+    "createdAt": "2024-04-05T08:37:48.359Z",
+    "updatedAt": "2024-04-05T08:37:48.359Z",
+    "__v": 0
+  },
+  {
+    "_id": "66138671b74b79685c342a21",
+    "name": "Bài viết",
+    "description": "This is blog category test",
+    "createdAt": "2024-04-08T05:53:53.121Z",
+    "updatedAt": "2024-04-08T05:53:53.121Z",
+    "__v": 0
+  }
+]

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using petshop.Data;
 
@@ -10,9 +11,11 @@ using petshop.Data;
 namespace petshop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240726141437_create_product_images")]
+    partial class create_product_images
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,14 +145,6 @@ namespace petshop.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("create_at");
-
-                    b.Property<string>("DOM")
-                        .HasColumnType("longtext")
-                        .HasColumnName("dom_description");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext")
-                        .HasColumnName("short_description");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("longtext")
