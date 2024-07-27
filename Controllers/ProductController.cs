@@ -7,6 +7,7 @@ using petshop.Dtos.Product;
 using petshop.Interfaces;
 using petshop.Mappers;
 using petshop.Models;
+using PetsShop_API_DotNet.Dtos.Product;
 
 namespace petshop.Controllers
 {
@@ -22,10 +23,24 @@ namespace petshop.Controllers
             _productRepo = productRepo;
         }
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts(string? search, int page = 1, int limit = 5)
         {
-            var products = await _productRepo.GetAllAsync();
-            return Ok(products);
+
+            int maxLimit = 100;
+            if (limit > maxLimit)
+            {
+                limit = maxLimit;
+            }
+
+            try
+            {
+                var producst = await _productRepo.GetAllAsync(search, page, limit);
+                return Ok(producst);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest("Internal Error");
+            }
         }
 
         [HttpPost]

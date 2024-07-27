@@ -15,6 +15,7 @@ namespace petshop.Models
         [Column("quantity")]
         public int Quantity { get; set; }
         [Column("price")]
+        [DisplayFormat(DataFormatString = "{0:0}", ApplyFormatInEditMode = true)]
         public decimal Price { get; set; }
         [Column("create_at")]
         public DateTime CreateAt { get; set; } = DateTime.Now;
