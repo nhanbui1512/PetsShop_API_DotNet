@@ -3,10 +3,12 @@ using System.Collections;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
+using petshop.Dtos.Product;
 using petshop.Interfaces;
 using petshop.Mappers;
 using petshop.Models;
 using PetsShop_API_DotNet.Dtos.Product;
+using PetsShop_API_DotNet.Models;
 
 namespace petshop.Repository
 {
@@ -77,5 +79,43 @@ namespace petshop.Repository
             return result.ToProductDTO();
 
         }
+        public async Task<Product?> AddProduct(CreateProductDTO data)
+        {
+            List<ProductImage> images = [];
+            List<Option> options = [];
+            foreach (var item in data.Images)
+            {
+                images.Add(new ProductImage
+                {
+                    FileURL = item
+                });
+
+            }
+
+            foreach (var item in data.CreateOptionDTOs)
+            {
+                options.Add(new Option
+                {
+                    Price = item.Price,
+                    Name = item.Name,
+                    Quantity = item.Quantity,
+                });
+
+            }
+
+            var newProduct = new Product
+            {
+                ProductName = data.ProductName,
+                CategoryId = data.CategoryId,
+                Description = data.Description,
+                DOM = data.DOMDescription,
+                Images = images,
+                Options = options
+            };
+            _context.Products.Add(newProduct);
+            await _context.SaveChangesAsync();
+            return newProduct;
+        }
+
     }
 }

@@ -9,15 +9,11 @@ namespace petshop.Controllers
     [ApiController]
     [Route("/api/options")]
 
-    public class OptionController : ControllerBase
+    public class OptionController(IOptionRepository repository) : ControllerBase
     {
 
-        private readonly IOptionRepository _repository;
+        private readonly IOptionRepository _repository = repository;
 
-        public OptionController(IOptionRepository repository)
-        {
-            _repository = repository;
-        }
         [HttpGet]
         [Route("{product_id:int}")]
         public async Task<IActionResult> getOption([FromRoute] int product_id)

@@ -8,6 +8,7 @@ using petshop.Interfaces;
 using petshop.Mappers;
 using petshop.Models;
 using PetsShop_API_DotNet.Dtos.Product;
+using PetsShop_API_DotNet.Repository;
 
 namespace petshop.Controllers
 {
@@ -17,10 +18,13 @@ namespace petshop.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly IProductRepository _productRepo;
+        private readonly ImageRepository _imageRepository;
+
         public ProductController(AppDbContext productContext, IProductRepository productRepo)
         {
             this._dbContext = productContext;
             _productRepo = productRepo;
+
         }
         [HttpGet]
         public async Task<IActionResult> GetProducts(string? search, int page = 1, int limit = 5)
@@ -50,24 +54,8 @@ namespace petshop.Controllers
             var category = await _dbContext.Categories.FirstOrDefaultAsync(item => item.Id == form.CategoryId);
             if (category == null) return NotFound(new { message = "Not found category", status = 404 });
 
-
-            var options = new List<Option>();
-            foreach (var item in form.CreateOptionDTOs)
-            {
-                options.Add(item.ToOptionObject());
-            }
-            var NewProduct = new Product
-            {
-                ProductName = form.ProductName,
-                Category = category,
-                CreateAt = DateTime.Now,
-                UpdateAt = DateTime.Now,
-                Options = options
-            };
-
-            await _dbContext.Products.AddAsync(NewProduct);
-            await _dbContext.SaveChangesAsync();
-            return Ok(NewProduct);
+            var result = await _productRepo.AddProduct(form);
+            return Ok(result);
         }
 
         [HttpDelete]

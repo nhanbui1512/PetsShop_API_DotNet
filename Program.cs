@@ -9,6 +9,8 @@ using petshop.Data;
 using petshop.Interfaces;
 using petshop.Middlewares;
 using petshop.Repository;
+using PetsShop_API_DotNet.Interfaces;
+using PetsShop_API_DotNet.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +66,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IOptionRepository, OptionRepository>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);

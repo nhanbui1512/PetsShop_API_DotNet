@@ -12,9 +12,11 @@ namespace petshop.Dtos.Product
         [MaxLength(150)]
         public string? ProductName { get; set; }
         [Required]
-        public string? Image { get; set; }
+        public string[]? Images { get; set; }
         [Required]
         public int CategoryId { get; set; }
+        public string? Description { get; set; }
+        public string? DOMDescription { get; set; }
         public List<CreateOptionDTO> CreateOptionDTOs { get; set; } = new List<CreateOptionDTO>();
     }
 }

@@ -41,8 +41,7 @@ namespace petshop.Data
     public DbSet<Role> Roles { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Option> Options { get; set; }
-
-
+    public DbSet<ProductImage> ProductImages { get; set; }
 
   }
 }
