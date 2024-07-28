@@ -20,7 +20,7 @@ namespace petshop.Repository
         {
             _context = appContext;
         }
-        public async Task<PagedResult<GetProductDTO>> GetAllAsync(string search, int page, int limit)
+        public async Task<PagedResult<GetProductDTO>> GetAllAsync(string search, int page, int limit, string? sortBy)
         {
             var totalCount = await _context.Products.CountAsync();
 
@@ -32,8 +32,42 @@ namespace petshop.Repository
                 allProducts = allProducts.Where(p => p.ProductName.Contains(search));
             }
 
+
+
             #region Paging
             allProducts = allProducts.Skip((page - 1) * limit).Take(limit);
+            #endregion
+
+            #region Sorting
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+
+                switch (sortBy)
+                {
+                    case "price_asc":
+                        allProducts = allProducts.OrderBy(p => p.Options.Min(o => o.Price));
+                        break;
+                    case "price_desc":
+                        allProducts = allProducts.OrderByDescending(p => p.Options.Max(o => o.Price));
+                        break;
+                    case "name_asc":
+                        allProducts = allProducts.OrderBy(p => p.ProductName);
+                        break;
+                    case "name_desc":
+                        allProducts = allProducts.OrderByDescending(p => p.ProductName);
+                        break;
+                    case "create_asc":
+                        allProducts = allProducts.OrderBy(p => p.CreateAt);
+                        break;
+                    case "create_desc":
+                        allProducts = allProducts.OrderByDescending(p => p.CreateAt);
+                        break;
+                    default:
+                        // code block
+                        break;
+                }
+            }
+
             #endregion
 
             var products = await allProducts

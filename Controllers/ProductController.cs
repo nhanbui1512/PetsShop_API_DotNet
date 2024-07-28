@@ -27,7 +27,7 @@ namespace petshop.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetProducts(string? search, int page = 1, int limit = 5)
+        public async Task<IActionResult> GetProducts(string? sortBy, string? search, int page = 1, int limit = 5)
         {
 
             int maxLimit = 100;
@@ -38,7 +38,7 @@ namespace petshop.Controllers
 
             try
             {
-                var producst = await _productRepo.GetAllAsync(search, page, limit);
+                var producst = await _productRepo.GetAllAsync(search, page, limit, sortBy);
                 return Ok(producst);
             }
             catch (System.Exception)
