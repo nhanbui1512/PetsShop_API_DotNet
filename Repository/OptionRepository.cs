@@ -5,6 +5,7 @@ using petshop.Data;
 using petshop.Dtos.Option;
 using petshop.Interfaces;
 using petshop.Mappers;
+using petshop.Models;
 
 namespace petshop.Repository
 {
@@ -21,9 +22,18 @@ namespace petshop.Repository
             var product = await _context.Products.FindAsync(productId);
             if (product == null) return null;
 
-            var option = data.ToOptionObject();
-            await _context.Options.AddAsync(option);
-            return option.ToOptionDTO();
+            var newOption = new Models.Option
+            {
+                Product = product,
+                Name = data.Name,
+                Price = data.Price,
+                Quantity = data.Quantity,
+                ProductId = product.Id
+            };
+            await _context.Options.AddAsync(newOption);
+            await _context.SaveChangesAsync();
+
+            return newOption.ToOptionDTO();
         }
 
         public Task<List<OptionDTO>> GetAll()
@@ -59,10 +69,13 @@ namespace petshop.Repository
             return data;
         }
 
-        public async void Remove(int id)
+        public async Task<bool> Remove(int id)
         {
             var option = await _context.Options.FirstOrDefaultAsync(o => o.Id == id);
-            if (option != null) _context.Options.Remove(option);
+            if (option == null) return false;
+            _context.Options.Remove(option);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<OptionDTO?> Update(UpdateOptionDTO data, int id)

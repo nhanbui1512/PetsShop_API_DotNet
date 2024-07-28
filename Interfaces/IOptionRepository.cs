@@ -10,6 +10,6 @@ namespace petshop.Interfaces
         Task<OptionDTO?> Add(CreateOptionDTO data, int? productId);
         Task<OptionDTO?> Update(UpdateOptionDTO data, int id);
         Task<List<OptionDTO>?> GetByProductId(int productId);
-        void Remove(int id);
+        Task<bool> Remove(int id);
     }
 }

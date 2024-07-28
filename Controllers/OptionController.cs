@@ -39,16 +39,17 @@ namespace petshop.Controllers
 
             var newOption = await _repository.Add(data, product_id);
             if (newOption == null) return NotFound(new { message = "Not found product" });
-            return Ok(newOption);
+            return Ok(new { newData = newOption, status = 200 });
         }
 
         [Authorize]
         [HttpDelete]
         [Route("{option_id:int}")]
-        public IActionResult DeleteOption([FromRoute] int option_id)
+        public async Task<IActionResult> DeleteOption([FromRoute] int option_id)
         {
-            _repository.Remove(option_id);
-            return Ok();
+            Boolean result = await _repository.Remove(option_id);
+            if (!result) return NotFound(new { message = "Not found option" });
+            return Ok(new { message = "Delete Option successfully" });
         }
 
         [Authorize]
