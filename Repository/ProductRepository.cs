@@ -1,5 +1,6 @@
 
 using System.Collections;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Interfaces;
@@ -45,6 +46,28 @@ namespace petshop.Repository
                 Images = p.Images
             }.ToProductDTO())
             .ToListAsync();
+        }
+
+        public async Task<GetProductDTO> GetById(int Id)
+        {
+            var product = _context.Products.AsQueryable();
+            product = product.Include(p => p.Category).Include(p => p.Images).Include(p => p.Options);
+            product = product.Select(p => new Product
+            {
+                Id = p.Id,
+                ProductName = p.ProductName,
+                Category = p.Category,
+                Options = p.Options,
+                CreateAt = p.CreateAt,
+                UpdateAt = p.UpdateAt,
+                Description = p.Description,
+                Images = p.Images
+            });
+
+            var result = await product.FirstOrDefaultAsync(p => p.Id == Id);
+            if (result == null) return null;
+            return result.ToProductDTO();
+
         }
     }
 }

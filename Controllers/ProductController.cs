@@ -86,5 +86,14 @@ namespace petshop.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var product = await _productRepo.GetById(id);
+            if (product == null) return NotFound(new { message = "Not found product" });
+            return Ok(product);
+        }
     }
 }

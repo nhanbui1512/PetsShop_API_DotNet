@@ -42,7 +42,7 @@ namespace petshop.Mappers
                 CreateAt = product.CreateAt,
                 UpdateAt = product.UpdateAt,
                 Description = product.Description,
-
+                DOM = product.DOM
             };
         }
     }
