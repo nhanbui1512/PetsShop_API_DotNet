@@ -55,7 +55,7 @@ namespace petshop.Repository
             return pagination;
         }
 
-        public async Task<GetProductDTO> GetById(int Id)
+        public async Task<GetProductDTO?> GetById(int Id)
         {
 
             var product = _context.Products.AsQueryable();

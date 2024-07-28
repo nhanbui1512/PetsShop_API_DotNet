@@ -16,9 +16,14 @@ namespace petshop.Repository
         {
             _context = context;
         }
-        public Task<OptionDTO> Add(CreateOptionDTO data)
+        public async Task<OptionDTO?> Add(CreateOptionDTO data, int? productId)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null) return null;
+
+            var option = data.ToOptionObject();
+            await _context.Options.AddAsync(option);
+            return option.ToOptionDTO();
         }
 
         public Task<List<OptionDTO>> GetAll()
@@ -31,7 +36,7 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<OptionDTO>> GetByProductId(int productId)
+        public async Task<List<OptionDTO>?> GetByProductId(int productId)
         {
 
             var product = await _context.Products.Include(p => p.Options).FirstOrDefaultAsync(p => p.Id == productId);
@@ -60,15 +65,16 @@ namespace petshop.Repository
             if (option != null) _context.Options.Remove(option);
         }
 
-        public async Task<OptionDTO> Update(UpdateOptionDTO data, int id)
+        public async Task<OptionDTO?> Update(UpdateOptionDTO data, int id)
         {
             var option = await _context.Options.FindAsync(id);
             if (option == null) return null;
 
             if (data.Name != null) option.Name = data.Name;
-            if (data.Price != null) option.Price = data.Price;
-            if (data.Quantity != null) option.Quantity = data.Quantity;
+            if (data.Price.HasValue) option.Price = data.Price;
+            if (data.Quantity != 0) option.Quantity = data.Quantity;
             option.UpdateAt = DateTime.Now;
+            await _context.SaveChangesAsync();
             return option.ToOptionDTO();
 
         }

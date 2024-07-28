@@ -58,7 +58,7 @@ namespace petshop.Repository
             return categories;
         }
 
-        public async Task<CategoryDTO> GetById(int id)
+        public async Task<CategoryDTO?> GetById(int id)
         {
 
             var result = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
@@ -71,7 +71,7 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<CategoryDTO> Update(UpdateCategoryDTO data, int id)
+        public async Task<CategoryDTO?> Update(UpdateCategoryDTO data, int id)
         {
             var category = await _context.Categories.FindAsync(id);
             if (category == null) return null;

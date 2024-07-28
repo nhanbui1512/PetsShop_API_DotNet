@@ -29,6 +29,20 @@ namespace petshop.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> CreateOption([FromBody] CreateOptionDTO data, [FromQuery] int? product_id)
+        {
+            if (!product_id.HasValue)
+            {
+                return BadRequest(new { message = "Product Id is required", status = 400 });
+            }
+
+            var newOption = await _repository.Add(data, product_id);
+            if (newOption == null) return NotFound(new { message = "Not found product" });
+            return Ok(newOption);
+        }
+
+        [Authorize]
         [HttpDelete]
         [Route("{option_id:int}")]
         public IActionResult DeleteOption([FromRoute] int option_id)
@@ -46,5 +60,7 @@ namespace petshop.Controllers
             if (result == null) return NotFound(new { message = "Not found option" });
             return Ok(result);
         }
+
+
     }
 }
