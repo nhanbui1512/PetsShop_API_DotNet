@@ -6,7 +6,7 @@ namespace petshop.Interfaces
 {
     public interface IProductRepository
     {
-        Task<List<GetProductDTO>> GetAllAsync(string search, int page, int limit);
+        Task<PagedResult<GetProductDTO>> GetAllAsync(string search, int page, int limit);
         Task<GetProductDTO> GetById(int Id);
     }
 }

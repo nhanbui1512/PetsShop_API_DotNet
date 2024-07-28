@@ -26,7 +26,7 @@ namespace PetsShop_API_DotNet.Controllers
         {
             try
             {
-                var result = await _dbContext.Roles.Select(role => new { role.Id, role.RoleName, role.CreateAt, role.UpdateAt, role.Users }).ToListAsync();
+                var result = await _dbContext.Roles.Select(role => new { role.Id, role.RoleName, role.CreateAt, role.UpdateAt }).ToListAsync();
                 return Ok(result);
             }
             catch (Exception e)

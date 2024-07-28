@@ -18,9 +18,13 @@ namespace petshop.Repository
         {
             _context = appContext;
         }
-        public Task<List<GetProductDTO>> GetAllAsync(string search, int page, int limit)
+        public async Task<PagedResult<GetProductDTO>> GetAllAsync(string search, int page, int limit)
         {
+            var totalCount = await _context.Products.CountAsync();
+
             var allProducts = _context.Products.AsQueryable();
+
+
             if (!string.IsNullOrEmpty(search))
             {
                 allProducts = allProducts.Where(p => p.ProductName.Contains(search));
@@ -30,7 +34,7 @@ namespace petshop.Repository
             allProducts = allProducts.Skip((page - 1) * limit).Take(limit);
             #endregion
 
-            return allProducts
+            var products = await allProducts
             .Include(product => product.Category)
             .Include(product => product.Options)
             .Include(p => p.Images)
@@ -46,10 +50,14 @@ namespace petshop.Repository
                 Images = p.Images
             }.ToProductDTO())
             .ToListAsync();
+
+            var pagination = new PagedResult<GetProductDTO>(products, totalCount, page, limit);
+            return pagination;
         }
 
         public async Task<GetProductDTO> GetById(int Id)
         {
+
             var product = _context.Products.AsQueryable();
             product = product.Include(p => p.Category).Include(p => p.Images).Include(p => p.Options);
             product = product.Select(p => new Product
