@@ -1,8 +1,11 @@
 
+using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Interfaces;
+using petshop.Mappers;
 using petshop.Models;
+using PetsShop_API_DotNet.Dtos.Product;
 
 namespace petshop.Repository
 {
@@ -14,7 +17,7 @@ namespace petshop.Repository
         {
             _context = appContext;
         }
-        public Task<List<Product>> GetAllAsync(string search, int page, int limit)
+        public Task<List<GetProductDTO>> GetAllAsync(string search, int page, int limit)
         {
             var allProducts = _context.Products.AsQueryable();
             if (!string.IsNullOrEmpty(search))
@@ -40,7 +43,7 @@ namespace petshop.Repository
                 UpdateAt = p.UpdateAt,
                 Description = p.Description,
                 Images = p.Images
-            })
+            }.ToProductDTO())
             .ToListAsync();
         }
     }
