@@ -47,7 +47,7 @@ namespace petshop.Controllers
             var issuer = _configuration["Jwt:Issuer"];
             var audience = _configuration["Jwt:Audience"];
 
-            var token = new JwtSecurityToken(issuer, audience, cailms, expires: DateTime.UtcNow.AddMinutes(60), signingCredentials: signIn);
+            var token = new JwtSecurityToken(issuer, audience, cailms, expires: DateTime.UtcNow.AddDays(7), signingCredentials: signIn);
 
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 

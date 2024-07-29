@@ -28,9 +28,9 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<UserDTO>> GetAll(GetUserDTO data)
+        public async Task<PagedResult<UserDTO>> GetAll(GetUserDTO data)
         {
-
+            var count = await _context.Users.CountAsync();
             var allUsers = await _context.Users.Include(u => u.Role).Select(u => new UserDTO
             {
                 Id = u.Id,
@@ -47,11 +47,12 @@ namespace petshop.Repository
 
             if (!string.IsNullOrEmpty(data.Search))
             {
-                allUsers = allUsers.Where(u => u.Email.Contains(data.Search) || u.FirstName.Contains(data.Search) || u.LastName.Contains(data.Search)).ToList();
+                allUsers = allUsers.Where(u => u.Email.ToLower().Contains(data.Search.ToLower()) || u.FullName.ToLower().Contains(data.Search.ToLower())).ToList();
             }
 
             var result = allUsers.Skip((data.Page - 1) * data.PerPage).Take(data.PerPage).ToList();
-            return result;
+            PagedResult<UserDTO> paging = new PagedResult<UserDTO>(result, count, data.Page, data.PerPage);
+            return paging;
         }
 
         public Task<UserDTO> GetById(int id)

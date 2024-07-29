@@ -27,10 +27,9 @@ namespace petshop.Controllers
         }
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetUsers(int page, int perPage, string? sort, string? search)
+        public async Task<IActionResult> GetUsers(string? sort, string? search, [FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, 100)] int perPage = 10)
         {
             GetUserDTO data = new GetUserDTO { Page = page, PerPage = perPage, Search = search, Sort = sort };
-            if (data.PerPage == 0) data.PerPage = 5;
             var result = await _repository.GetAll(data);
             return Ok(result);
         }
