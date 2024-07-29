@@ -81,16 +81,22 @@ namespace petshop.Repository
 
         }
 
-        public async Task<UserDTO?> Update(UpdateUserDTO data)
+        public async Task<UserDTO?> Update(UpdateUserDTO data, int userId)
         {
-            var user = await _context.Users.FindAsync(data.UserId);
+            var user = await _context.Users.FindAsync(userId);
             if (user == null) return null;
 
-            if (!string.IsNullOrEmpty(data.FirstName)) user.FirstName = data.FirstName;
-            if (!string.IsNullOrEmpty(data.LastName)) user.LastName = data.LastName;
+            if (!string.IsNullOrEmpty(data.FirstName) && !string.IsNullOrWhiteSpace(data.FirstName)) user.FirstName = data.FirstName;
+            if (!string.IsNullOrEmpty(data.LastName) && !string.IsNullOrWhiteSpace(data.LastName)) user.LastName = data.LastName;
             if (data.Gender.HasValue) user.Gender = data.Gender.Value;
+            user.UpdatedAt = DateTime.Now;
             await _context.SaveChangesAsync();
             return user.ToUserDTO();
+        }
+
+        public async Task<bool> ChangePassword(PasswordDTO data, int userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

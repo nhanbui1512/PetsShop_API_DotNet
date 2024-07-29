@@ -65,14 +65,19 @@ namespace petshop.Controllers
             }
 
         }
-
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updateUser)
         {
-            var result = await _repository.Update(updateUser);
+
+            var context = HttpContext;
+            var user = context.User.Claims;
+            var userId = user.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null) return NotFound(new { message = "Not found user", status = StatusCodes.Status404NotFound });
+
+            var result = await _repository.Update(updateUser, int.Parse(userId));
             if (result == null) return NotFound(new { message = "Not found user", status = StatusCodes.Status404NotFound });
             return Ok(new { data = result, status = StatusCodes.Status200OK });
-
         }
 
         [HttpDelete]
@@ -83,5 +88,6 @@ namespace petshop.Controllers
             if (result == false) return NotFound(new { message = "Not found User" });
             return Ok(new { message = "Delete success" });
         }
+
     }
 }

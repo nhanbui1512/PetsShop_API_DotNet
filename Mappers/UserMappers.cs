@@ -14,7 +14,12 @@ namespace api.Mappers
         LastName = userObject.LastName,
         Gender = userObject.Gender,
         Email = userObject.Email,
-        Avatar = userObject.Avatar
+        Avatar = userObject.Avatar,
+        FullName = userObject.FullName,
+        CreatedAt = userObject.CreatedAt,
+        UpdatedAt = userObject.UpdatedAt,
+        CreatedAtStr = userObject.CreatedAtStr,
+        UpdatedAtStr = userObject.UpdatedAtStr
       };
     }
 
