@@ -14,6 +14,6 @@ namespace petshop.Interfaces
         Task<UserDTO> Add(CreateUserDTO data);
         Task<UserDTO?> Update(UpdateUserDTO data, int userId);
         Task<bool> Remove(int id);
-        Task<bool> ChangePassword(PasswordDTO data, int userId);
+        Task<bool?> ChangePassword(PasswordDTO data, int userId);
     }
 }

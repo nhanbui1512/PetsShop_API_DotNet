@@ -94,9 +94,15 @@ namespace petshop.Repository
             return user.ToUserDTO();
         }
 
-        public async Task<bool> ChangePassword(PasswordDTO data, int userId)
+        public async Task<bool?> ChangePassword(PasswordDTO data, int userId)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return null;
+            if (user.Password != data.OldPassword) return false;
+            user.Password = data.NewPassword;
+            user.UpdatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

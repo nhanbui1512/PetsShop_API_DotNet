@@ -66,7 +66,7 @@ namespace petshop.Controllers
 
         }
         [Authorize]
-        [HttpPut]
+        [HttpPatch]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updateUser)
         {
 
@@ -87,6 +87,24 @@ namespace petshop.Controllers
             bool result = await _repository.Remove(id);
             if (result == false) return NotFound(new { message = "Not found User" });
             return Ok(new { message = "Delete success" });
+        }
+
+        [HttpPatch]
+        [Authorize]
+        [Route("password")]
+        public async Task<IActionResult> ChangePassword(PasswordDTO data)
+        {
+            var context = HttpContext;
+            var user = context.User.Claims;
+            var userId = user.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null) return NotFound(new { message = "Not found user", status = StatusCodes.Status404NotFound });
+
+            var result = await _repository.ChangePassword(data, int.Parse(userId));
+            if (result == null) return BadRequest(new { message = "Not found user", status = StatusCodes.Status404NotFound });
+            if (result == false) return BadRequest(new { message = "Old password is wrong", status = StatusCodes.Status404NotFound });
+            var newData = await _dbContext.Users.FindAsync(int.Parse(userId));
+
+            return Ok(newData);
         }
 
     }
