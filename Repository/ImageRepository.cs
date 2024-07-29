@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using PetsShop_API_DotNet.Interfaces;
 using PetsShop_API_DotNet.Mappers;
@@ -15,6 +16,11 @@ namespace PetsShop_API_DotNet.Repository
             _context.ProductImages.AddRange(listImage);
             await _context.SaveChangesAsync();
             return listImage;
+        }
+        public async Task<List<ProductImage>?> GetImages(int productId)
+        {
+            var images = await _context.ProductImages.Where(i => i.ProductId == productId).ToListAsync();
+            return images;
         }
     }
 }

@@ -9,5 +9,6 @@ namespace PetsShop_API_DotNet.Interfaces
     public interface IImageRepository
     {
         Task<List<ProductImage>?> AddImages(List<string> Urls, int productId);
+        Task<List<ProductImage>?> GetImages(int productId);
     }
 }
