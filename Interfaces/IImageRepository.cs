@@ -10,5 +10,6 @@ namespace PetsShop_API_DotNet.Interfaces
     {
         Task<List<ProductImage>?> AddImages(List<string> Urls, int productId);
         Task<List<ProductImage>?> GetImages(int productId);
+        Task<bool> Remove(int imageId);
     }
 }

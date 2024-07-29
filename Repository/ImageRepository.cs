@@ -22,5 +22,17 @@ namespace PetsShop_API_DotNet.Repository
             var images = await _context.ProductImages.Where(i => i.ProductId == productId).ToListAsync();
             return images;
         }
+
+
+        public async Task<bool> Remove(int imageId)
+        {
+            var image = await _context.ProductImages.FindAsync(imageId);
+            if (image == null) return false;
+            _context.ProductImages.Remove(image);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
     }
 }
