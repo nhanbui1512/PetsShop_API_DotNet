@@ -1,14 +1,11 @@
-using System.Text.Json.Nodes;
-using Microsoft.AspNetCore.Http.HttpResults;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.Product;
 using petshop.Interfaces;
-using petshop.Mappers;
-using petshop.Models;
-using PetsShop_API_DotNet.Dtos.Product;
 using PetsShop_API_DotNet.Repository;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace petshop.Controllers
 {
@@ -22,11 +19,13 @@ namespace petshop.Controllers
 
         public ProductController(AppDbContext productContext, IProductRepository productRepo)
         {
-            this._dbContext = productContext;
+            _dbContext = productContext;
             _productRepo = productRepo;
 
         }
+
         [HttpGet]
+        [SwaggerOperation(Summary = "Get list product")]
         public async Task<IActionResult> GetProducts(string? sortBy, string? search, int page = 1, int limit = 5)
         {
 
@@ -48,6 +47,7 @@ namespace petshop.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Create a product")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO form)
         {
 
@@ -60,6 +60,7 @@ namespace petshop.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [SwaggerOperation(Summary = "Delete a product")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
 
@@ -77,6 +78,7 @@ namespace petshop.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [SwaggerOperation(Summary = "Get product by id")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var product = await _productRepo.GetById(id);
