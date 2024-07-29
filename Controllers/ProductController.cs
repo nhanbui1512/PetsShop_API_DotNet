@@ -15,7 +15,6 @@ namespace petshop.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly IProductRepository _productRepo;
-        private readonly ImageRepository _imageRepository;
 
         public ProductController(AppDbContext productContext, IProductRepository productRepo)
         {
@@ -40,7 +39,7 @@ namespace petshop.Controllers
                 var producst = await _productRepo.GetAllAsync(search, page, limit, sortBy);
                 return Ok(producst);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return BadRequest("Internal Error");
             }

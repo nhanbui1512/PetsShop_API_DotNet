@@ -32,6 +32,12 @@ namespace petshop.Models
     [Column("gender")]
     public bool Gender { get; set; }
 
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    [Column("updated_at")]
+    public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
     public int RoleId { get; set; }
     public Role? Role { get; set; }
     [NotMapped]
