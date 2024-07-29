@@ -12,6 +12,7 @@ using petshop.Dtos.User;
 using petshop.Interfaces;
 using petshop.Models;
 using PetsShop_API_DotNet.Dtos.User;
+using PetsShop_API_DotNet.Mappers;
 
 namespace petshop.Repository
 {
@@ -55,9 +56,25 @@ namespace petshop.Repository
             return paging;
         }
 
-        public Task<UserDTO> GetById(int id)
+        public async Task<UserDTO?> GetById(int id)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null) return null;
+            return new UserDTO
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                FullName = user.FullName,
+                Email = user.Email,
+                Avatar = user.Avatar,
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
+                CreatedAtStr = user.CreatedAtStr,
+                UpdatedAtStr = user.UpdatedAtStr,
+                Role = user.Role.ToRoleDTO(),
+            };
         }
 
         public async Task<bool> Remove(int id)

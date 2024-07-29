@@ -37,16 +37,9 @@ namespace petshop.Controllers
         public async Task<IActionResult> GetUserById([FromRoute] int id)
         {
 
-            var user = await _dbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
-            // fix
-            if (user != null)
-            {
-                return Ok(user);
-            }
-            else
-            {
-                return NotFound();
-            }
+            var user = await _repository.GetById(id);
+            if (user == null) return NotFound(new { message = "Not found user", sttus = StatusCodes.Status404NotFound });
+            return Ok(new { data = user, status = StatusCodes.Status200OK });
         }
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO formData)

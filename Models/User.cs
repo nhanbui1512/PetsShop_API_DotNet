@@ -46,6 +46,18 @@ namespace petshop.Models
       get { return $"{FirstName} {LastName}"; }
     }
 
+    [NotMapped]
+    public string CreatedAtStr
+    {
+      get { return $"{CreatedAt.ToLongTimeString()} {CreatedAt.ToLongDateString()}"; }
+    }
+
+    [NotMapped]
+    public string UpdatedAtStr
+    {
+      get { return $"{UpdatedAt.ToLongTimeString()} {UpdatedAt.ToLongDateString()}"; }
+    }
+
   }
 
 }
