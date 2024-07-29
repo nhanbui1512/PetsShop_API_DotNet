@@ -12,7 +12,7 @@ namespace petshop.Interfaces
         Task<PagedResult<UserDTO>> GetAll(GetUserDTO data);
         Task<UserDTO?> GetById(int id);
         Task<UserDTO> Add(CreateUserDTO data);
-        Task<UserDTO> Update(UpdateUserDTO data, int id);
+        Task<UserDTO?> Update(UpdateUserDTO data);
         Task<bool> Remove(int id);
     }
 }

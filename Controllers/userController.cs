@@ -67,25 +67,11 @@ namespace petshop.Controllers
         }
 
         [HttpPut]
-        [Route("{id:int}")]
-        public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserDTO updateUser)
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updateUser)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
-            if (user == null) return NotFound();
-
-            user.FirstName = updateUser.FirstName;
-            user.LastName = updateUser.LastName;
-            user.Gender = updateUser.Gender;
-            await _dbContext.SaveChangesAsync();
-            return new JsonResult(new
-            {
-                userId = user.Id,
-                email = user.Email,
-                firstName = user.FirstName,
-                lastName = user.LastName,
-                gender = user.Gender,
-            })
-            { StatusCode = 200 };
+            var result = await _repository.Update(updateUser);
+            if (result == null) return NotFound(new { message = "Not found user", status = StatusCodes.Status404NotFound });
+            return Ok(new { data = result, status = StatusCodes.Status200OK });
 
         }
 

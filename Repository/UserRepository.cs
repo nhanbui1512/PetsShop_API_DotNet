@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using api.Mappers;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
-using petshop.Dtos.Category;
-using petshop.Dtos.Product;
 using petshop.Dtos.Role;
 using petshop.Dtos.User;
 using petshop.Interfaces;
@@ -87,9 +81,16 @@ namespace petshop.Repository
 
         }
 
-        public Task<UserDTO> Update(UpdateUserDTO data, int id)
+        public async Task<UserDTO?> Update(UpdateUserDTO data)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.FindAsync(data.UserId);
+            if (user == null) return null;
+
+            if (!string.IsNullOrEmpty(data.FirstName)) user.FirstName = data.FirstName;
+            if (!string.IsNullOrEmpty(data.LastName)) user.LastName = data.LastName;
+            if (data.Gender.HasValue) user.Gender = data.Gender.Value;
+            await _context.SaveChangesAsync();
+            return user.ToUserDTO();
         }
     }
 }
