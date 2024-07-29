@@ -34,6 +34,11 @@ namespace petshop.Models
 
     public int RoleId { get; set; }
     public Role? Role { get; set; }
+    [NotMapped]
+    public string FullName
+    {
+      get { return $"{FirstName} {LastName}"; }
+    }
 
   }
 

@@ -13,5 +13,6 @@ namespace petshop.Dtos.User
         public string? Avatar { get; set; }
         public bool Gender { get; set; }
         public RoleDTO? Role { get; set; }
+        public string? FullName { get; set; }
     }
 }

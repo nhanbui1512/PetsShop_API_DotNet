@@ -39,6 +39,7 @@ namespace petshop.Repository
                 Email = u.Email,
                 Avatar = u.Avatar,
                 Gender = u.Gender,
+                FullName = u.FullName,
                 Role = new RoleDTO { Id = u.Role.Id, RoleName = u.Role.RoleName, CreateAt = u.Role.CreateAt, UpdateAt = u.Role.UpdateAt }
 
             }).ToListAsync();
