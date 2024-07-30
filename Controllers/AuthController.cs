@@ -1,6 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using petshop.Data;
 using petshop.Dtos.Category;
-using petshop.Interfaces;
+using dotenv.net;
+
 
 
 namespace petshop.Controllers
@@ -25,6 +25,7 @@ namespace petshop.Controllers
         {
             _dbContext = userContext;
             this._configuration = configuration;
+            DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
         }
         [HttpPost]
         [Route("/api/auth/login")]
@@ -41,8 +42,8 @@ namespace petshop.Controllers
                 new Claim("UserId",user.Id.ToString()),
 
             };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            string secretKey = Environment.GetEnvironmentVariable("SECRET_KEY");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var issuer = _configuration["Jwt:Issuer"];
             var audience = _configuration["Jwt:Audience"];

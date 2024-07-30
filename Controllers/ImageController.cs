@@ -34,5 +34,20 @@ namespace petshop.Controllers
             return Ok(new { message = "Delete image successfully", status = 200 });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
+            if (file.Length > 0)
+            {
+                var filePath = Path.GetTempFileName();
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+            return Ok();
+        }
+
     }
 }
