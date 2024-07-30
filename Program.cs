@@ -7,10 +7,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using petshop.Data;
 using petshop.Interfaces;
-using petshop.Middlewares;
 using petshop.Repository;
 using PetsShop_API_DotNet.Interfaces;
 using PetsShop_API_DotNet.Repository;
+using dotenv.net;
+DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,9 +72,10 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IOptionRepository, OptionRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
+byte[] secretKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET_KEY"));
 
 builder.Services.AddAuthentication(x =>
 {
@@ -91,7 +93,7 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(secretKey)
     };
 });
 

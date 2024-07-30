@@ -10,6 +10,7 @@ namespace api.Mappers
     {
       return new UserDTO
       {
+        Id = userObject.Id,
         FirstName = userObject.FirstName,
         LastName = userObject.LastName,
         Gender = userObject.Gender,

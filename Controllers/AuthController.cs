@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using petshop.Data;
 using petshop.Dtos.Category;
 using dotenv.net;
+using petshop.Interfaces;
 
 
 
@@ -20,11 +21,14 @@ namespace petshop.Controllers
 
         private readonly AppDbContext _dbContext;
         private readonly IConfiguration _configuration;
+        private readonly IAuthRepository _repository;
 
-        public AuthController(AppDbContext userContext, IConfiguration configuration)
+        public AuthController(AppDbContext userContext, IAuthRepository repository, IConfiguration configuration)
         {
             _dbContext = userContext;
+            _repository = repository;
             this._configuration = configuration;
+
             DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
         }
         [HttpPost]
@@ -32,7 +36,8 @@ namespace petshop.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDTO data)
         {
 
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == data.Email && u.Password == data.Password);
+            // var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == data.Email && u.Password == data.Password);
+            var user = await _repository.CheckLogin(data);
             if (user == null) return NotFound(new { message = "Not found user" });
 
             var cailms = new[]{
@@ -40,7 +45,6 @@ namespace petshop.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("Email", user.Email.ToString()),
                 new Claim("UserId",user.Id.ToString()),
-
             };
             string secretKey = Environment.GetEnvironmentVariable("SECRET_KEY");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -52,7 +56,7 @@ namespace petshop.Controllers
 
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return Ok(new { accessToken = tokenValue, data = user.ToUserDTO() });
+            return Ok(new { accessToken = tokenValue, data = user });
         }
 
     }
