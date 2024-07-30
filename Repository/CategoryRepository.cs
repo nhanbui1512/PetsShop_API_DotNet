@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.Category;
@@ -67,6 +62,8 @@ namespace petshop.Repository
             var result = await _context.Categories
             .Include(c => c.Products)
             .ThenInclude(p => p.Options)
+            .Include(p => p.Products)
+            .ThenInclude(p => p.Images)
             .FirstOrDefaultAsync(c => c.Id == id);
 
             if (result == null) return null; // Trả về null nếu không tìm thấy Category
@@ -96,6 +93,7 @@ namespace petshop.Repository
                 UpdateAt = product.UpdateAt,
                 Description = product.Description,
                 Options = product.Options,
+                Images = product.Images.Select(i => i.FileURL.ToString()).ToList()
 
             }).ToList();
             return new CategoryDTO { Id = result.Id, CategoryName = result.CategoryName, CreatedAt = result.CreateAt, UpdatedAt = result.UpdateAt, Products = products };

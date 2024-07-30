@@ -16,9 +16,8 @@ namespace petshop.Controllers
 
         [SwaggerOperation(Summary = "Get images of product")]
         [HttpGet]
-        public async Task<IActionResult> GetImagesByProductId(int product_id)
+        public async Task<IActionResult> GetImagesByProductId([FromQuery, Range(1, int.MaxValue)] int product_id)
         {
-            if (product_id <= 0) return BadRequest(new { message = "product_id not validation" });
             var images = await _imageRepository.GetImages(product_id);
             return Ok(new { data = images });
         }
