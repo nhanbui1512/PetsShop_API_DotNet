@@ -152,5 +152,11 @@ namespace petshop.Repository
             return newProduct;
         }
 
+        public async Task<int> CountProductsOfCategory(int categoryId)
+        {
+            var count = await _context.Products.Where(p => p.CategoryId == categoryId).CountAsync();
+            return count;
+        }
+
     }
 }

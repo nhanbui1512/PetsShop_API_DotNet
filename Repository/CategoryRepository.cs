@@ -18,6 +18,7 @@ namespace petshop.Repository
     {
 
         private readonly AppDbContext _context;
+
         public CategoryRepository(AppDbContext context)
         {
             this._context = context;
@@ -81,7 +82,7 @@ namespace petshop.Repository
                     {
                         Id = o.Id,
                         Name = o.Name,
-                        Price = o.Price,
+                        Price = Math.Floor(o.Price.Value),
                         Quantity = o.Quantity,
                         ProductId = o.ProductId
                     }).ToList();
@@ -95,7 +96,6 @@ namespace petshop.Repository
                 UpdateAt = product.UpdateAt,
                 Description = product.Description,
                 Options = product.Options,
-                DOM = product.DOM,
 
             }).ToList();
             return new CategoryDTO { Id = result.Id, CategoryName = result.CategoryName, CreatedAt = result.CreateAt, UpdatedAt = result.UpdateAt, Products = products };
