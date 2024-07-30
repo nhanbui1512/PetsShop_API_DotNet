@@ -39,7 +39,7 @@ namespace petshop.Controllers
         [Route("upload")]
         public async Task<IActionResult> UploadImage([FromForm] UploadImageDTO data)
         {
-            if (data.Image.Length > 0)
+            if (data?.Image?.Length > 0)
             {
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", data.Image.FileName);
                 using (var stream = System.IO.File.Create(path))
