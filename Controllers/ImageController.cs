@@ -1,6 +1,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using petshop.Dtos.Image;
 using PetsShop_API_DotNet.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -35,16 +36,17 @@ namespace petshop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadImage(IFormFile file)
+        [Route("upload")]
+        public async Task<IActionResult> UploadImage([FromForm] UploadImageDTO data)
         {
-            if (file.Length > 0)
+            if (data.Image.Length > 0)
             {
-                var filePath = Path.GetTempFileName();
-
-                using (var stream = System.IO.File.Create(filePath))
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", data.Image.FileName);
+                using (var stream = System.IO.File.Create(path))
                 {
-                    await file.CopyToAsync(stream);
+                    await data.Image.CopyToAsync(stream);
                 }
+
             }
             return Ok();
         }
