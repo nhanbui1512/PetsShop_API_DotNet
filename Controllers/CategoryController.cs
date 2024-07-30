@@ -1,5 +1,7 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using petshop.Data;
 using petshop.Dtos.Category;
 using petshop.Dtos.Product;
@@ -38,9 +40,9 @@ namespace PetsShop_API_DotNet.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> FindById([FromRoute] int id)
+        public async Task<IActionResult> FindById([FromRoute] int id, [FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, 100)] int perPage = 10)
         {
-            var category = await _repository.GetById(id);
+            var category = await _repository.GetById(id, page, perPage);
             if (category == null) return NotFound(new { message = "Not found category" });
             return Ok(category);
         }

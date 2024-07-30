@@ -105,7 +105,8 @@ namespace petshop.Repository
                 CreateAt = p.CreateAt,
                 UpdateAt = p.UpdateAt,
                 Description = p.Description,
-                Images = p.Images
+                Images = p.Images,
+                DOM = p.DOM,
             });
 
             var result = await product.FirstOrDefaultAsync(p => p.Id == Id);

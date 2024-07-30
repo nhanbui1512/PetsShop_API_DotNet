@@ -46,7 +46,6 @@ namespace petshop.Controllers
                 {
                     await data.Image.CopyToAsync(stream);
                 }
-
             }
             return Ok();
         }

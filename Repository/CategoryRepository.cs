@@ -8,7 +8,9 @@ using petshop.Data;
 using petshop.Dtos.Category;
 using petshop.Dtos.Product;
 using petshop.Interfaces;
+using petshop.Mappers;
 using petshop.Models;
+using PetsShop_API_DotNet.Dtos.Product;
 
 namespace petshop.Repository
 {
@@ -58,12 +60,45 @@ namespace petshop.Repository
             return categories;
         }
 
-        public async Task<CategoryDTO?> GetById(int id)
+        public async Task<CategoryDTO?> GetById(int id, int page, int limit)
         {
 
-            var result = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+            var result = await _context.Categories
+            .Include(c => c.Products)
+            .ThenInclude(p => p.Options)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
             if (result == null) return null; // Trả về null nếu không tìm thấy Category
-            return new CategoryDTO { Id = result.Id, CategoryName = result.CategoryName, CreatedAt = result.CreateAt, UpdatedAt = result.UpdateAt };
+            result.Products = result.Products
+                .Skip((page - 1) * limit)
+                .Take(limit)
+                .ToList();
+
+            foreach (var product in result.Products)
+            {
+                product.Options = product.Options
+                    .Select(o => new Option
+                    {
+                        Id = o.Id,
+                        Name = o.Name,
+                        Price = o.Price,
+                        Quantity = o.Quantity,
+                        ProductId = o.ProductId
+                    }).ToList();
+            }
+
+            var products = result.Products.Select(product => new GetProductDTO
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                CreateAt = product.CreateAt,
+                UpdateAt = product.UpdateAt,
+                Description = product.Description,
+                Options = product.Options,
+                DOM = product.DOM,
+
+            }).ToList();
+            return new CategoryDTO { Id = result.Id, CategoryName = result.CategoryName, CreatedAt = result.CreateAt, UpdatedAt = result.UpdateAt, Products = products };
         }
 
         public void Remove(int id)

@@ -1,4 +1,6 @@
 
+using PetsShop_API_DotNet.Dtos.Product;
+
 namespace petshop.Dtos.Category
 {
     public class CategoryDTO
@@ -8,6 +10,6 @@ namespace petshop.Dtos.Category
         public string? Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-
+        public List<GetProductDTO>? Products { get; set; }
     }
 }
