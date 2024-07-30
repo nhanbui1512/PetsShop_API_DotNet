@@ -31,18 +31,25 @@ namespace petshop.Mappers
             {
                 images.Add(item.FileURL);
             }
+            // format decimal type
+            foreach (var item in product.Options)
+            {
+                item.Price = Math.Floor(item.Price.Value);
+            }
+
 
             return new GetProductDTO
             {
                 Id = product.Id,
                 ProductName = product.ProductName,
                 Options = product.Options,
-                Category = product.Category,
-                Images = images,
+                CategoryId = product.CategoryId,
                 CreateAt = product.CreateAt,
                 UpdateAt = product.UpdateAt,
                 Description = product.Description,
-                DOM = product.DOM
+                DOM = product.DOM,
+                Category = product.Category,
+                Images = images
             };
         }
     }

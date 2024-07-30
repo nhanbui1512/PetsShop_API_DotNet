@@ -3,7 +3,6 @@ using petshop.Data;
 using petshop.Dtos.Category;
 using petshop.Dtos.Product;
 using petshop.Interfaces;
-using petshop.Mappers;
 using petshop.Models;
 using PetsShop_API_DotNet.Dtos.Product;
 

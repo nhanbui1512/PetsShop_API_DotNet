@@ -99,6 +99,7 @@ namespace petshop.Repository
             product = product.Select(p => new Product
             {
                 Id = p.Id,
+                CategoryId = p.CategoryId,
                 ProductName = p.ProductName,
                 Category = p.Category,
                 Options = p.Options,
