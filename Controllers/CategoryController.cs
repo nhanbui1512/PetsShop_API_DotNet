@@ -67,6 +67,7 @@ namespace PetsShop_API_DotNet.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCategoryDTO data)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
             var result = await _categoryRepository.Update(data, id);
             if (result == null) return NotFound(new { message = "Not found category", status = StatusCodes.Status404NotFound });
 

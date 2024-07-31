@@ -41,9 +41,11 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public Task<OptionDTO> GetById(int id)
+        public async Task<OptionDTO?> GetById(int id)
         {
-            throw new NotImplementedException();
+            var option = await _context.Options.FindAsync(id);
+            if (option == null) return null;
+            return option.ToOptionDTO();
         }
 
         public async Task<List<OptionDTO>?> GetByProductId(int productId)
@@ -90,6 +92,11 @@ namespace petshop.Repository
             await _context.SaveChangesAsync();
             return option.ToOptionDTO();
 
+        }
+        public async Task<List<OptionDTO>?> GetOptionsByIds(int[] ids)
+        {
+            var options = await _context.Options.Where(o => ids.Contains(o.Id)).Select(o => o.ToOptionDTO()).ToListAsync();
+            return options;
         }
     }
 }

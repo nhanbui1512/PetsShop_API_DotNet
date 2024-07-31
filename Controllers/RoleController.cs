@@ -59,7 +59,6 @@ namespace PetsShop_API_DotNet.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleDTO form)
         {
-
             if (form.RoleId == null) return new BadRequestObjectResult(new { RoleId = "Not Validation", status = 409 }) { StatusCode = 409 };
             if (form.RoleName == null || form.RoleName.Trim() == "") return new BadRequestObjectResult(new { roleName = "Not Validation", status = 409 }) { StatusCode = 409 };
 

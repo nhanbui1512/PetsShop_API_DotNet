@@ -33,7 +33,7 @@ namespace petshop.Controllers
         [Route("/api/auth/login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO data)
         {
-
+            if (!ModelState.IsValid) return BadRequest(ModelState);
             // var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == data.Email && u.Password == data.Password);
             var user = await _repository.CheckLogin(data);
             if (user == null) return NotFound(new { message = "Not found user" });
