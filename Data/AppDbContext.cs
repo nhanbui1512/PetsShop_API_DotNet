@@ -42,6 +42,8 @@ namespace petshop.Data
     public DbSet<Category> Categories { get; set; }
     public DbSet<Option> Options { get; set; }
     public DbSet<ProductImage> ProductImages { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 
   }
 }

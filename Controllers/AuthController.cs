@@ -1,9 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using petshop.Data;
 using petshop.Dtos.Category;
@@ -46,17 +44,30 @@ namespace petshop.Controllers
                 new Claim("Email", user.Email.ToString()),
                 new Claim("UserId",user.Id.ToString()),
             };
+
             string secretKey = Environment.GetEnvironmentVariable("SECRET_KEY");
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            string refreshTokenKey = Environment.GetEnvironmentVariable("REFRESH_TOKEN_KEY");
+
             var issuer = _configuration["Jwt:Issuer"];
             var audience = _configuration["Jwt:Audience"];
 
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(issuer, audience, cailms, expires: DateTime.UtcNow.AddDays(7), signingCredentials: signIn);
 
-            string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
+            var refreshKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(refreshTokenKey));
+            var signInRefreshToken = new SigningCredentials(refreshKey, SecurityAlgorithms.HmacSha256);
+            var refreshToken = new JwtSecurityToken(issuer, audience, cailms, expires: DateTime.UtcNow.AddDays(30), signingCredentials: signInRefreshToken);
 
-            return Ok(new { accessToken = tokenValue, data = user });
+            string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
+            string refreshTokenValue = new JwtSecurityTokenHandler().WriteToken(refreshToken);
+
+
+            user.RefreshToken = refreshTokenValue;
+            user.AccessToken = tokenValue;
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(new { accessToken = tokenValue, refreshToken = refreshTokenValue, data = user });
         }
 
     }
