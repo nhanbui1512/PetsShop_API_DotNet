@@ -1,4 +1,5 @@
 
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualBasic;
@@ -73,6 +74,17 @@ namespace petshop.Controllers
             {
                 newOrder
             });
+        }
+
+        [HttpGet]
+        [Route("{order_id:int}")]
+        public async Task<IActionResult> FindOrder([FromRoute, Range(1, int.MaxValue)] int order_id)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var order = await _orderRepository.GetById(order_id);
+            if (order == null) return NotFound(new { message = "Not Found Order", status = StatusCodes.Status404NotFound });
+
+            return Ok(new { data = order });
         }
     }
 }
