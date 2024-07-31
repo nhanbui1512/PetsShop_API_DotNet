@@ -73,6 +73,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IOptionRepository, OptionRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
 byte[] secretKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET_KEY"));

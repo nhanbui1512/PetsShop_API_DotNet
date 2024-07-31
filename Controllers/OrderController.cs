@@ -5,6 +5,7 @@ using Microsoft.VisualBasic;
 using petshop.Dtos.Option;
 using petshop.Dtos.Orders;
 using petshop.Interfaces;
+using petshop.Models;
 
 namespace petshop.Controllers
 {
@@ -13,9 +14,11 @@ namespace petshop.Controllers
     {
 
         private readonly IOptionRepository _optionRepository;
-        public OrderController(IOptionRepository optionRepository)
+        private readonly IOrderRepository _orderRepository;
+        public OrderController(IOptionRepository optionRepository, IOrderRepository orderRepository)
         {
             _optionRepository = optionRepository;
+            _orderRepository = orderRepository;
         }
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrder data)
@@ -38,13 +41,37 @@ namespace petshop.Controllers
             var options = await _optionRepository.GetOptionsByIds(ids);
             var existIds = options.Select(o => o.Id).ToArray();
 
-            var orders = data.Items.Where(i => existIds.Contains(i.OptionId)).ToList(); // ids of option that exist in database
+            var orders = new List<OrderItem>();
 
+            // get order items if existed
+            foreach (var item in data.Items)
+            {
+                var option = options.Find(o => o.Id == item.OptionId);
+                if (option != null)
+                {
+                    orders.Add(new OrderItem
+                    {
+                        Quantity = item.Quantity,
+                        OptionId = item.OptionId,
+                        Price = option.Price.Value
+                    });
+                }
+            }
+
+            var newOrder = new Order
+            {
+                Address = data.Address,
+                UserName = data.UserName,
+                PhoneNumber = data.PhoneNumber,
+                OrderItems = orders,
+                Total = orders.Sum(o => o.Price * o.Quantity)
+            };
+
+            newOrder = await _orderRepository.Create(newOrder);
 
             return Ok(new
             {
-                data = data,
-                orders = orders
+                newOrder
             });
         }
     }

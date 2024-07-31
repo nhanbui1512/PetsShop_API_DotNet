@@ -12,10 +12,14 @@ namespace petshop.Models
         public int Quantity { get; set; }
         [Column("price")]
         [DisplayFormat(DataFormatString = "{0:0}", ApplyFormatInEditMode = true)]
-        public decimal MyProperty { get; set; }
+        public decimal Price { get; set; }
 
+        public Order? Order { get; set; }
+        public int OrderId { get; set; }
         public Option? Option { get; set; }
         public int OptionId { get; set; }
+
+
 
     }
 }

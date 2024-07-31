@@ -12,5 +12,16 @@ namespace petshop.Dtos.Orders
         [Required]
         [Range(1, 1000)]
         public int Quantity { get; set; }
+        private decimal Price;
+
+        public void SetPrice(decimal price)
+        {
+            Price = price;
+        }
+        public decimal GetPrice()
+        {
+            return Price;
+        }
+
     }
 }

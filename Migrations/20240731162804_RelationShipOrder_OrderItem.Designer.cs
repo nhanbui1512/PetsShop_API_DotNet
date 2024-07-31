@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using petshop.Data;
 
@@ -10,9 +11,11 @@ using petshop.Data;
 namespace petshop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240731162804_RelationShipOrder_OrderItem")]
+    partial class RelationShipOrder_OrderItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,6 +205,9 @@ namespace petshop.Migrations
                     b.Property<int>("OptionId")
                         .HasColumnType("int");
 
+                    b.Property<int>("OptionId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
@@ -217,7 +223,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("OptionId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OptionId1");
 
                     b.ToTable("OrderItems");
                 });
@@ -351,15 +357,15 @@ namespace petshop.Migrations
 
             modelBuilder.Entity("petshop.Models.OrderItem", b =>
                 {
-                    b.HasOne("petshop.Models.Option", "Option")
-                        .WithMany()
+                    b.HasOne("petshop.Models.Order", "Order")
+                        .WithMany("OrderItems")
                         .HasForeignKey("OptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("petshop.Models.Order", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
+                    b.HasOne("petshop.Models.Option", "Option")
+                        .WithMany()
+                        .HasForeignKey("OptionId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
