@@ -44,6 +44,7 @@ namespace petshop.Data
     public DbSet<ProductImage> ProductImages { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
+    public DbSet<Bill> Bills { get; set; }
 
   }
 }
