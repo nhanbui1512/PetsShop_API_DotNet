@@ -1,9 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.VisualBasic;
-using petshop.Dtos.Option;
 using petshop.Dtos.Orders;
 using petshop.Interfaces;
 using petshop.Models;
@@ -67,6 +64,7 @@ namespace petshop.Controllers
                 OrderItems = orders,
                 Total = orders.Sum(o => o.Price * o.Quantity)
             };
+            if (newOrder.OrderItems.Count() == 0) return NotFound(new { message = "Not found any options", status = StatusCodes.Status404NotFound });
 
             newOrder = await _orderRepository.Create(newOrder);
 
@@ -85,6 +83,13 @@ namespace petshop.Controllers
             if (order == null) return NotFound(new { message = "Not Found Order", status = StatusCodes.Status404NotFound });
 
             return Ok(new { data = order });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetOrders([FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, 100)] int perPage = 10)
+        {
+            var orders = await _orderRepository.GetOrders(page, perPage, "");
+            return Ok(orders);
         }
     }
 }
