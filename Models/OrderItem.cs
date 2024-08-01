@@ -19,7 +19,10 @@ namespace petshop.Models
         public Option? Option { get; set; }
         public int OptionId { get; set; }
 
+        [ForeignKey("ProductId")]
         public Product? Product { get; set; }
+        public int ProductId { get; set; }
+
 
     }
 }

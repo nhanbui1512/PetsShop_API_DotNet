@@ -23,22 +23,17 @@ namespace petshop.Data
       base.OnModelCreating(modelBuilder);
 
       modelBuilder.Entity<Product>()
-          .HasMany(p => p.Options)
-          .WithOne(c => c.Product)
-          .HasForeignKey(c => c.ProductId)
-          .OnDelete(DeleteBehavior.Cascade); // Thiết lập xóa theo kiểu Cascade
+        .HasMany(p => p.Options)
+        .WithOne(c => c.Product)
+        .HasForeignKey(c => c.ProductId)
+        .OnDelete(DeleteBehavior.Cascade); // Thiết lập xóa theo kiểu Cascade
 
       modelBuilder.Entity<Role>()
-               .HasMany(p => p.Users)
-               .WithOne(c => c.Role)
-               .HasForeignKey(c => c.RoleId)
-               .OnDelete(DeleteBehavior.Cascade); // Thiết lập xóa theo kiểu Cascade
+        .HasMany(p => p.Users)
+        .WithOne(c => c.Role)
+        .HasForeignKey(c => c.RoleId)
+        .OnDelete(DeleteBehavior.Cascade); // Thiết lập xóa theo kiểu Cascade
 
-      modelBuilder.Entity<Order>()
-           .HasMany(p => p.OrderItems)
-           .WithOne(c => c.Order)
-           .HasForeignKey(c => c.OrderId)
-           .OnDelete(DeleteBehavior.Cascade); // Thiết lập xóa theo kiểu Cascade
 
     }
 
