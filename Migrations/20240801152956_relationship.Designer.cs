@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using petshop.Data;
 
@@ -10,9 +11,11 @@ using petshop.Data;
 namespace petshop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240801152956_relationship")]
+    partial class relationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages", (string)null);
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("PetsShop_API_DotNet.Models.Role", b =>
@@ -61,7 +64,7 @@ namespace petshop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("petshop.Models.Bill", b =>
@@ -90,7 +93,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("payments", (string)null);
+                    b.ToTable("payments");
                 });
 
             modelBuilder.Entity("petshop.Models.Category", b =>
@@ -118,7 +121,7 @@ namespace petshop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("petshop.Models.Option", b =>
@@ -155,7 +158,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Options", (string)null);
+                    b.ToTable("Options");
                 });
 
             modelBuilder.Entity("petshop.Models.Order", b =>
@@ -189,7 +192,7 @@ namespace petshop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("petshop.Models.OrderItem", b =>
@@ -224,7 +227,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("petshop.Models.Product", b =>
@@ -261,7 +264,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("petshop.Models.User", b =>
@@ -318,7 +321,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("PetsShop_API_DotNet.Models.ProductImage", b =>

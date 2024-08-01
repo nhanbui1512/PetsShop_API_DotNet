@@ -22,12 +22,14 @@ namespace petshop.Repository
             return order;
         }
 
-        public async Task<List<Order>?> GetOrders(int page, int perPage, string sortBy)
+        public async Task<PagedResult<Order>?> GetOrders(int page, int perPage, string sortBy)
         {
+            var total = await _context.Orders.CountAsync();
             var orders = _context.Orders.AsQueryable();
             orders = orders.Skip((page - 1) * perPage).Take(perPage);
             var result = await orders.ToListAsync();
-            return result;
+            PagedResult<Order> paging = new PagedResult<Order>(result, total, page, perPage);
+            return paging;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace petshop.Models
         public Option? Option { get; set; }
         public int OptionId { get; set; }
 
-
+        public Product? Product { get; set; }
 
     }
 }
