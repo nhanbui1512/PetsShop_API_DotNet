@@ -30,7 +30,8 @@ namespace petshop.Mappers
                 Quantity = option.Quantity,
                 Price = option.Price,
                 UpdateAt = option.UpdateAt,
-                CreatedAt = option.CreateAt
+                CreatedAt = option.CreateAt,
+                ProductId = option.ProductId
             };
         }
     }

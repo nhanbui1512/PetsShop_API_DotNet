@@ -44,6 +44,7 @@ namespace petshop.Controllers
             // get order items if existed
             foreach (var item in data.Items)
             {
+
                 var option = options.Find(o => o.Id == item.OptionId);
                 if (option != null)
                 {
@@ -51,7 +52,8 @@ namespace petshop.Controllers
                     {
                         Quantity = item.Quantity,
                         OptionId = item.OptionId,
-                        Price = option.Price.Value
+                        Price = option.Price.Value,
+                        ProductId = option.ProductId
                     });
                 }
             }
@@ -86,9 +88,9 @@ namespace petshop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOrders([FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, 100)] int perPage = 10)
+        public async Task<IActionResult> GetOrders([FromQuery] string? search, [FromQuery] string? sortBy, [FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, 100)] int perPage = 10)
         {
-            var orders = await _orderRepository.GetOrders(page, perPage, "");
+            var orders = await _orderRepository.GetOrders(page, perPage, sortBy, search);
             return Ok(orders);
         }
     }

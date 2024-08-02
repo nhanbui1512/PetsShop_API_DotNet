@@ -36,5 +36,12 @@ namespace petshop.Controllers
             return Ok(new { data = user });
         }
 
+        [HttpPost]
+        [Route("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDTO data)
+        {
+            return Ok();
+        }
+
     }
 }

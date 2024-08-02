@@ -45,11 +45,8 @@ namespace petshop.Repository
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(accessToken);
             string refreshTokenValue = new JwtSecurityTokenHandler().WriteToken(refreshToken);
 
-            Console.WriteLine(tokenValue);
-            Console.WriteLine(refreshTokenValue);
-
             user.AccessToken = tokenValue;
-            user.RefreshToken = refreshTokenValue;
+            if (user.RefreshToken == null) user.RefreshToken = refreshTokenValue;
             await _context.SaveChangesAsync();
 
             return new UserDTO
