@@ -104,5 +104,10 @@ namespace petshop.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public Task<User?> SaveChange(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
