@@ -21,6 +21,8 @@ namespace petshop.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         [Column("updated_at")]
         public DateTime UpdateAt { get; set; }
+        [Column("status")]
+        public string Status { get; set; } = "Processing";
         public List<OrderItem>? OrderItems { get; set; }
 
     }
