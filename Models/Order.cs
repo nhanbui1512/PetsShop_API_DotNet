@@ -17,7 +17,9 @@ namespace petshop.Models
         public string? Address { get; set; }
         [Column("total")]
         public decimal Total { get; set; }
+        [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        [Column("updated_at")]
         public DateTime UpdateAt { get; set; }
         public List<OrderItem>? OrderItems { get; set; }
 
