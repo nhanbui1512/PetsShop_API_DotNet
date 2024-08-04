@@ -109,5 +109,14 @@ namespace petshop.Controllers
             if (result == null) return NotFound(new { message = "Not found any orders", status = StatusCodes.Status404NotFound });
             return Ok(result);
         }
+        [HttpDelete]
+        [Route("{order_id}")]
+        public async Task<IActionResult> DeleteOrder([FromRoute, Range(1, int.MaxValue)] int order_id)
+        {
+            var result = await _orderRepository.Delete(order_id);
+            if (result == null) return NotFound(new { message = "Not found order", status = StatusCodes.Status404NotFound });
+            return Ok();
+        }
+
     }
 }

@@ -15,6 +15,22 @@ namespace petshop.Repository
             return data;
         }
 
+        public async Task<bool?> Delete(int orderId)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order == null) return null;
+            try
+            {
+                _context.Orders.Remove(order);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task<Order?> GetById(int id)
         {
             var order = await _context.Orders.Include(or => or.OrderItems)
