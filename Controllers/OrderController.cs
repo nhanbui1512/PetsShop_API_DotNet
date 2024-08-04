@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using petshop.Dtos.Orders;
 using petshop.Interfaces;
 using petshop.Models;
+using PetsShop_API_DotNet.Dtos.Orders;
 
 namespace petshop.Controllers
 {
@@ -92,6 +93,21 @@ namespace petshop.Controllers
         {
             var orders = await _orderRepository.GetOrders(page, perPage, sortBy, search);
             return Ok(orders);
+        }
+        [HttpPatch]
+        [Route("prepare")]
+        public async Task<IActionResult> PrepareOrders([FromBody] PrepareOrder data)
+        {
+            List<int> filterIds = new List<int>();
+
+            foreach (int id in data.OrderIds)
+            {
+                if (id > 0 && id <= int.MaxValue && !filterIds.Contains(id))
+                    filterIds.Add(id);
+            }
+            var result = await _orderRepository.PrepareOrders(filterIds.ToArray());
+            if (result == null) return NotFound(new { message = "Not found any orders", status = StatusCodes.Status404NotFound });
+            return Ok(result);
         }
     }
 }

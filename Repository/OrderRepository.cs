@@ -40,5 +40,20 @@ namespace petshop.Repository
             PagedResult<Order> paging = new PagedResult<Order>(result, total, page, perPage);
             return paging;
         }
+
+        public async Task<List<Order>?> PrepareOrders(int[] OrderIds)
+        {
+            var orders = await _context.Orders.Where(p => OrderIds.Contains(p.Id)).ToListAsync();
+            if (orders.Count() == 0) return null;
+
+            foreach (var item in orders)
+            {
+                item.Status = "Preparing";
+                item.CreatedAt = DateTime.Now;
+            }
+
+            await _context.SaveChangesAsync();
+            return orders;
+        }
     }
 }

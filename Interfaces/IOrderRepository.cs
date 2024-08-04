@@ -8,5 +8,6 @@ namespace petshop.Interfaces
         Task<Order?> Create(Order data);
         Task<Order?> GetById(int id);
         Task<PagedResult<Order>?> GetOrders(int page, int perPage, string sortBy, string search);
+        Task<List<Order>?> PrepareOrders(int[] OrderIds);
     }
 }
