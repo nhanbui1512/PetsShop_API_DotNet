@@ -5,6 +5,7 @@ using petshop.Dtos.Orders;
 using petshop.Interfaces;
 using petshop.Models;
 using PetsShop_API_DotNet.Dtos.Orders;
+using PetsShop_API_DotNet.Interfaces;
 
 namespace petshop.Controllers
 {
@@ -14,10 +15,12 @@ namespace petshop.Controllers
 
         private readonly IOptionRepository _optionRepository;
         private readonly IOrderRepository _orderRepository;
-        public OrderController(IOptionRepository optionRepository, IOrderRepository orderRepository)
+        private readonly IBillsRepository _billsRepository;
+        public OrderController(IOptionRepository optionRepository, IOrderRepository orderRepository, IBillsRepository billsRepository)
         {
             _optionRepository = optionRepository;
             _orderRepository = orderRepository;
+            _billsRepository = billsRepository;
         }
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrder data)
@@ -124,7 +127,10 @@ namespace petshop.Controllers
         {
             var result = await _orderRepository.ConfirmOrders(data.OrderIds.ToArray());
             if (result == null) return NotFound(new { message = "Not found any orders", status = StatusCodes.Status404NotFound });
-            return Ok(result);
+            var orderIds = result.Select(o => o.Id).ToArray();
+            var bills = await _billsRepository.GenerateBills(orderIds);
+
+            return Ok(bills);
         }
 
     }
