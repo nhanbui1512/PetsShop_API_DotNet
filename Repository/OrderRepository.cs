@@ -36,16 +36,18 @@ namespace petshop.Repository
 
         public async Task<OrderDTO?> GetById(int id)
         {
-            var order = await _context.Orders
-                .Include(or => or.OrderItems)
+            var order = _context.Orders.AsQueryable();
+
+            order = order.Include(or => or.OrderItems)
                     .ThenInclude(op => op.Product) // Include Product từ OrderItem
-                .Include(or => or.OrderItems)
-                    .ThenInclude(op => op.Option)  // Include Option, nhưng không cần Product trong Option
-                .FirstOrDefaultAsync(or => or.Id == id);
+                    .Include(or => or.OrderItems)
+                    .ThenInclude(op => op.Option)
+                    .Select(order => order);
 
-            if (order == null) return null;
+            var result = await order.FirstOrDefaultAsync(order => order.Id == id);
+            if (result == null) return null;
 
-            return order.ToOrderDTO();
+            return result.ToOrderDTO();
         }
 
         public async Task<PagedResult<Order>?> GetOrders(int page, int perPage, string sortBy, string search)
