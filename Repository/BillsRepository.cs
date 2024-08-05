@@ -2,16 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using petshop.Data;
 using petshop.Models;
 using PetsShop_API_DotNet.Interfaces;
 
 namespace PetsShop_API_DotNet.Repository
 {
-    public class BillsRepository : IBillsRepository
+    public class BillsRepository(AppDbContext context) : IBillsRepository
+
     {
-        public Task<List<Bill>?> GenerateBills(int[] billIds)
+        private readonly AppDbContext _context = context;
+        public async Task<List<Bill>?> GenerateBills(int[] orderIds)
         {
-            throw new NotImplementedException();
+            var orders = await _context.Orders.Where(o => orderIds.Contains(o.Id)).ToListAsync();
+            if (orders == null || orders.Count() == 0) return null;
+            List<Bill> newBills = new List<Bill>();
+            foreach (var order in orders)
+            {
+                newBills.Add(new Bill
+                {
+                    Total = order.Total,
+                    OrderId = order.Id,
+                });
+            }
+            await _context.Bills.AddRangeAsync(newBills);
+            return newBills;
         }
     }
 }
