@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
+using petshop.Dtos.Orders;
 using petshop.Interfaces;
+using petshop.Mappers;
 using petshop.Models;
+using PetsShop_API_DotNet.Mappers;
 
 namespace petshop.Repository
 {
@@ -31,13 +34,18 @@ namespace petshop.Repository
             }
         }
 
-        public async Task<Order?> GetById(int id)
+        public async Task<OrderDTO?> GetById(int id)
         {
-            var order = await _context.Orders.Include(or => or.OrderItems)
-            .ThenInclude(op => op.Option)
-            .FirstOrDefaultAsync(or => or.Id == id);
+            var order = await _context.Orders
+                .Include(or => or.OrderItems)
+                    .ThenInclude(op => op.Product) // Include Product từ OrderItem
+                .Include(or => or.OrderItems)
+                    .ThenInclude(op => op.Option)  // Include Option, nhưng không cần Product trong Option
+                .FirstOrDefaultAsync(or => or.Id == id);
+
             if (order == null) return null;
-            return order;
+
+            return order.ToOrderDTO();
         }
 
         public async Task<PagedResult<Order>?> GetOrders(int page, int perPage, string sortBy, string search)
