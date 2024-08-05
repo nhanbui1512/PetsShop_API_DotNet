@@ -118,5 +118,13 @@ namespace petshop.Controllers
             return Ok();
         }
 
+        [HttpPatch]
+        [Route("confirm")]
+        public async Task<IActionResult> ConfirmOrders([FromBody] PrepareOrder data)
+        {
+
+            return Ok();
+        }
+
     }
 }

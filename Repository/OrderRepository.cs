@@ -81,5 +81,11 @@ namespace petshop.Repository
             await _context.SaveChangesAsync();
             return orders;
         }
+        public Task<List<Order>?> ConfirmOrders(int[] orderIds)
+        {
+
+            throw new NotImplementedException();
+        }
+
     }
 }
