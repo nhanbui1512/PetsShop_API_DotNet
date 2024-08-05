@@ -81,10 +81,17 @@ namespace petshop.Repository
             await _context.SaveChangesAsync();
             return orders;
         }
-        public Task<List<Order>?> ConfirmOrders(int[] orderIds)
+        public async Task<List<Order>?> ConfirmOrders(int[] orderIds)
         {
-
-            throw new NotImplementedException();
+            var orders = await _context.Orders.Where(order => orderIds.Contains(order.Id)).ToListAsync();
+            if (orders == null || orders.Count() == 0) return null;
+            foreach (var order in orders)
+            {
+                order.Status = "Confirmed";
+                order.UpdateAt = DateTime.Now;
+            }
+            await _context.SaveChangesAsync();
+            return orders;
         }
 
     }

@@ -122,8 +122,9 @@ namespace petshop.Controllers
         [Route("confirm")]
         public async Task<IActionResult> ConfirmOrders([FromBody] PrepareOrder data)
         {
-
-            return Ok();
+            var result = await _orderRepository.ConfirmOrders(data.OrderIds.ToArray());
+            if (result == null) return NotFound(new { message = "Not found any orders", status = StatusCodes.Status404NotFound });
+            return Ok(result);
         }
 
     }
