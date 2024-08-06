@@ -55,7 +55,6 @@ namespace petshop.Repository
             var total = await _context.Orders.CountAsync();
             var orders = _context.Orders.AsQueryable();
 
-
             #region Searching
             if (!string.IsNullOrEmpty(search) && !string.IsNullOrWhiteSpace(search))
                 orders = orders.Where(o => o.UserName.Contains(search)

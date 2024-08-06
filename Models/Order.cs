@@ -25,5 +25,17 @@ namespace petshop.Models
         public string Status { get; set; } = "Processing";
         public List<OrderItem>? OrderItems { get; set; }
 
+        [NotMapped]
+        public string CreatedAtStr
+        {
+            get { return $"{CreatedAt.ToLongTimeString()} {CreatedAt.ToLongDateString()}"; }
+        }
+
+        [NotMapped]
+        public string UpdatedAtStr
+        {
+            get { return $"{UpdateAt.ToLongTimeString()} {UpdateAt.ToLongDateString()}"; }
+        }
+
     }
 }
