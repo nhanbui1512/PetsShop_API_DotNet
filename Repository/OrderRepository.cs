@@ -60,6 +60,33 @@ namespace petshop.Repository
                 orders = orders.Where(o => o.UserName.Contains(search)
                 || o.Address.Contains(search) || o.PhoneNumber.Contains(search));
             #endregion
+
+            #region sorting
+
+            switch (sortBy)
+            {
+                case "total_asc":
+                    orders = orders.OrderBy(o => o.Total);
+                    break;
+                case "total_desc":
+                    orders = orders.OrderByDescending(o => o.Total);
+                    break;
+                case "name_asc":
+                    orders = orders.OrderBy(o => o.UserName);
+                    break;
+                case "name_desc":
+                    orders = orders.OrderByDescending(o => o.UserName);
+                    break;
+                case "time_asc":
+                    orders = orders.OrderBy(o => o.CreatedAt);
+                    break;
+                case "time_desc":
+                    orders = orders.OrderByDescending(o => o.CreatedAt);
+                    break;
+                default:
+                    break;
+            }
+            #endregion
             orders = orders.Skip((page - 1) * perPage).Take(perPage);
             var result = await orders.ToListAsync();
             PagedResult<Order> paging = new PagedResult<Order>(result, total, page, perPage);
@@ -74,7 +101,7 @@ namespace petshop.Repository
             foreach (var item in orders)
             {
                 item.Status = "Preparing";
-                item.CreatedAt = DateTime.Now;
+                item.UpdateAt = DateTime.Now;
             }
 
             await _context.SaveChangesAsync();
