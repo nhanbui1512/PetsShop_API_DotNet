@@ -50,7 +50,7 @@ namespace petshop.Repository
             return result.ToOrderDTO();
         }
 
-        public async Task<PagedResult<Order>?> GetOrders(int page, int perPage, string sortBy, string search)
+        public async Task<PagedResult<Order>?> GetOrders(int page, int perPage, string sortBy, string search, string filter)
         {
             var total = await _context.Orders.CountAsync();
             var orders = _context.Orders.AsQueryable();
@@ -87,7 +87,27 @@ namespace petshop.Repository
                     break;
             }
             #endregion
+
+            #region filter
+
+            switch (filter)
+            {
+                case "Processing":
+                    orders = orders.Where(o => o.Status == "Processing");
+                    break;
+                case "Confirmed":
+                    orders = orders.Where(o => o.Status == "Confirmed");
+                    break;
+                default:
+                    break;
+            }
+
+            #endregion
+
+            #region paging
             orders = orders.Skip((page - 1) * perPage).Take(perPage);
+            #endregion
+
             var result = await orders.ToListAsync();
             PagedResult<Order> paging = new PagedResult<Order>(result, total, page, perPage);
             return paging;
