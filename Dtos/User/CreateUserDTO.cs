@@ -28,7 +28,5 @@ namespace petshop.Dtos.User
         [Required]
         public bool Gender { get; set; }
 
-        [Required]
-        public int RoleId { get; set; }
     }
 }

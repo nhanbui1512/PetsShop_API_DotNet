@@ -70,7 +70,8 @@ namespace petshop.Controllers
                 OrderItems = orders,
                 Total = orders.Sum(o => o.Price * o.Quantity)
             };
-            if (newOrder.OrderItems.Count() == 0) return NotFound(new { message = "Not found any options", status = StatusCodes.Status404NotFound });
+            if (newOrder.OrderItems.Count() == 0)
+                return NotFound(new { message = "Not found any options", status = StatusCodes.Status404NotFound });
 
             newOrder = await _orderRepository.Create(newOrder);
 
