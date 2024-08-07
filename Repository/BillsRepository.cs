@@ -26,7 +26,8 @@ namespace PetsShop_API_DotNet.Repository
                     OrderId = order.Id,
                 });
             }
-            await _context.Bills.AddRangeAsync(newBills);
+            _context.Bills.AddRange(newBills);
+            await _context.SaveChangesAsync();
             return newBills;
         }
     }
