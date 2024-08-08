@@ -37,7 +37,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("PetsShop_API_DotNet.Models.Role", b =>
@@ -61,7 +61,7 @@ namespace petshop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("petshop.Models.Bill", b =>
@@ -90,7 +90,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("payments");
+                    b.ToTable("payments", (string)null);
                 });
 
             modelBuilder.Entity("petshop.Models.Category", b =>
@@ -118,7 +118,7 @@ namespace petshop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("petshop.Models.Option", b =>
@@ -155,7 +155,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Options");
+                    b.ToTable("Options", (string)null);
                 });
 
             modelBuilder.Entity("petshop.Models.Order", b =>
@@ -196,7 +196,7 @@ namespace petshop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("petshop.Models.OrderItem", b =>
@@ -231,7 +231,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("petshop.Models.Product", b =>
@@ -268,7 +268,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("petshop.Models.User", b =>
@@ -325,7 +325,7 @@ namespace petshop.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("PetsShop_API_DotNet.Models.ProductImage", b =>

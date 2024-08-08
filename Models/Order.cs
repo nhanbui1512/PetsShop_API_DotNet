@@ -30,7 +30,6 @@ namespace petshop.Models
         {
             get { return $"{CreatedAt.ToLongTimeString()} {CreatedAt.ToLongDateString()}"; }
         }
-
         [NotMapped]
         public string UpdatedAtStr
         {
