@@ -1,5 +1,6 @@
 
 using petshop.Dtos.Option;
+using petshop.Models;
 
 namespace petshop.Interfaces
 {
@@ -11,6 +12,7 @@ namespace petshop.Interfaces
         Task<OptionDTO?> Update(UpdateOptionDTO data, int id);
         Task<List<OptionDTO>?> GetByProductId(int productId);
         Task<List<OptionDTO>?> GetOptionsByIds(int[] ids);
+        Task<List<OptionDTO>?> DecreaseQuantity(List<OrderItem> orderItems);
         Task<bool> Remove(int id);
     }
 }

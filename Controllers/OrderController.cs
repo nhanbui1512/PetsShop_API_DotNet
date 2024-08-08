@@ -48,7 +48,6 @@ namespace petshop.Controllers
             // get order items if existed
             foreach (var item in data.Items)
             {
-
                 var option = options.Find(o => o.Id == item.OptionId);
                 if (option != null)
                 {
@@ -73,11 +72,11 @@ namespace petshop.Controllers
             if (newOrder.OrderItems.Count() == 0)
                 return NotFound(new { message = "Not found any options", status = StatusCodes.Status404NotFound });
 
-            newOrder = await _orderRepository.Create(newOrder);
-
+            var res = await _orderRepository.Create(newOrder);
+            if (res == null) return BadRequest(new { message = "Not found any options can order" });
             return Ok(new
             {
-                newOrder
+                data = res
             });
         }
 

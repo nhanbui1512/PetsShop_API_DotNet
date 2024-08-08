@@ -98,5 +98,27 @@ namespace petshop.Repository
             var options = await _context.Options.Where(o => ids.Contains(o.Id)).Select(o => o.ToOptionDTO()).ToListAsync();
             return options;
         }
+
+        public async Task<List<OptionDTO>?> DecreaseQuantity(List<OrderItem> orderItems)
+        {
+            var ids = orderItems.Select(o => o.OptionId).ToArray();
+            var options = await _context.Options.Where(o => ids.Contains(o.Id)).ToListAsync();
+            if (options == null || options.Count == 0) return null;
+
+            var updatedOptions = new List<OptionDTO>();
+            foreach (var orderitem in orderItems)
+            {
+                var option = options.Find(o => o.Id == orderitem.OptionId);
+                if (option != null)
+                {
+                    if (orderitem.Quantity > option.Quantity) continue;
+                    option.Quantity -= orderitem.Quantity;
+                    updatedOptions.Add(option.ToOptionDTO());
+                }
+            }
+            if (updatedOptions.Count == 0) return null;
+            await _context.SaveChangesAsync();
+            return updatedOptions;
+        }
     }
 }

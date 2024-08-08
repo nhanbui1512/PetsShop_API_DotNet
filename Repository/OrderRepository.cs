@@ -3,6 +3,7 @@ using petshop.Data;
 using petshop.Dtos.Orders;
 using petshop.Interfaces;
 using petshop.Mappers;
+using petshop.Migrations;
 using petshop.Models;
 using PetsShop_API_DotNet.Mappers;
 
@@ -13,6 +14,28 @@ namespace petshop.Repository
         private readonly AppDbContext _context = context;
         public async Task<Order?> Create(Order data)
         {
+            var orderItems = new List<OrderItem>();
+
+
+            #region decrease quantity of option product
+            var optionIds = data.OrderItems.Select(o => o.OptionId).ToArray();
+            // find options of orderItems
+            var options = await _context.Options.Where(o => optionIds.Contains(o.Id)).ToListAsync();
+
+            foreach (var orderItem in data.OrderItems)
+            {
+                var option = options.Find(o => o.Id == orderItem.OptionId);
+                if (option != null)
+                {
+                    if (orderItem.Quantity > option.Quantity) continue;
+                    option.Quantity -= orderItem.Quantity;
+                    orderItems.Add(orderItem);
+                }
+            }
+            #endregion
+
+            if (orderItems.Count == 0) return null;
+            data.OrderItems = orderItems;
             _context.Orders.Add(data);
             await _context.SaveChangesAsync();
             return data;
