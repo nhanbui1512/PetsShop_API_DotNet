@@ -121,6 +121,15 @@ namespace petshop.Controllers
             return Ok();
         }
 
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteMultiOrder([FromBody] DeleteMultiOrder data)
+        {
+            var result = await _orderRepository.DeleteOrders(data.OrderIds);
+
+            return Ok(result);
+        }
+
         [HttpPatch]
         [Route("confirm")]
         public async Task<IActionResult> ConfirmOrders([FromBody] PrepareOrder data)

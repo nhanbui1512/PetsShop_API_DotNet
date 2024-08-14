@@ -13,6 +13,7 @@ public static class MiddlewareExtensions
           ("/api/role", "PUT"),
           ("/api/orders/prepare", "PATCH"),
           ("/api/orders/confirm","PATCH"),
+          ("/api/orders","DELETE")
         };
         foreach (var route in routesToProtect)
         {

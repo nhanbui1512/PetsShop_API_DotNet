@@ -16,8 +16,7 @@ namespace petshop.Repository
         {
             var orderItems = new List<OrderItem>();
 
-
-            #region decrease quantity of option product
+            #region decrease quantity 
             var optionIds = data.OrderItems.Select(o => o.OptionId).ToArray();
             // find options of orderItems
             var options = await _context.Options.Where(o => optionIds.Contains(o.Id)).ToListAsync();
@@ -163,5 +162,18 @@ namespace petshop.Repository
             return orders;
         }
 
+        public async Task<List<Order>?> DeleteOrders(int[] orderIds)
+        {
+            var result = new List<Order>();
+            var orders = await _context.Orders.Where(o => orderIds.Contains(o.Id)).ToListAsync();
+            foreach (var order in orders)
+            {
+                result.Add(order);
+            }
+            _context.RemoveRange(orders);
+            await _context.SaveChangesAsync();
+
+            return result;
+        }
     }
 }

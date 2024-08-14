@@ -12,5 +12,6 @@ namespace petshop.Interfaces
         Task<List<Order>?> PrepareOrders(int[] OrderIds);
         Task<bool?> Delete(int orderId);
         Task<List<Order>?> ConfirmOrders(int[] orderIds);
+        Task<List<Order>?> DeleteOrders(int[] orderIds);
     }
 }
