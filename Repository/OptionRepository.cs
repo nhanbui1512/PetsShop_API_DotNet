@@ -120,5 +120,13 @@ namespace petshop.Repository
             await _context.SaveChangesAsync();
             return updatedOptions;
         }
+
+        public Task<List<Option>?> UpdateOptions(List<Option> data)
+        {
+            var optionIds = data.Select(o => o.Id).ToArray();
+            var options = _context.Options.Where(o => optionIds.Contains(o.Id));
+
+            throw new NotImplementedException();
+        }
     }
 }

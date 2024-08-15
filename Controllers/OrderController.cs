@@ -123,10 +123,11 @@ namespace petshop.Controllers
 
 
         [HttpDelete]
+
+
         public async Task<IActionResult> DeleteMultiOrder([FromBody] DeleteMultiOrder data)
         {
             var result = await _orderRepository.DeleteOrders(data.OrderIds);
-
             return Ok(result);
         }
 

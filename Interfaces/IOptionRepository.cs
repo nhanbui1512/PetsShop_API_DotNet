@@ -13,6 +13,7 @@ namespace petshop.Interfaces
         Task<List<OptionDTO>?> GetByProductId(int productId);
         Task<List<OptionDTO>?> GetOptionsByIds(int[] ids);
         Task<List<OptionDTO>?> DecreaseQuantity(List<OrderItem> orderItems);
+        Task<List<Option>?> UpdateOptions(List<Option> options);
         Task<bool> Remove(int id);
     }
 }
