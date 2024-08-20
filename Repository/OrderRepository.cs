@@ -42,8 +42,21 @@ namespace petshop.Repository
 
         public async Task<bool?> Delete(int orderId)
         {
-            var order = await _context.Orders.FindAsync(orderId);
+            var order = await _context.Orders.Include(o => o.OrderItems).FirstOrDefaultAsync(o => o.Id == orderId);
             if (order == null) return null;
+
+            var optionIds = order.OrderItems.Select(o => o.OptionId).ToArray();
+            var options = await _context.Options.Where(o => optionIds.Contains(o.Id)).ToListAsync();
+
+            foreach (var item in options)
+            {
+                var orderItem = order.OrderItems.Find(o => item.Id == o.OptionId);
+                if (orderItem != null)
+                {
+                    item.Quantity += orderItem.Quantity;
+                }
+            }
+
             try
             {
                 _context.Orders.Remove(order);

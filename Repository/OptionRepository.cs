@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.ObjectPool;
 using petshop.Data;
 using petshop.Dtos.Option;
 using petshop.Interfaces;
@@ -127,6 +128,23 @@ namespace petshop.Repository
             var options = _context.Options.Where(o => optionIds.Contains(o.Id));
 
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Option>?> IncreaseQuantity(List<OrderItem> orderItems)
+        {
+            var optionIds = orderItems.Select(o => o.OptionId).ToList();
+            var options = await _context.Options.Where(o => optionIds.Contains(o.Id)).ToListAsync();
+
+            foreach (var item in options)
+            {
+                var orderItem = orderItems.Find(o => o.OptionId == item.Id);
+                if (orderItem != null)
+                {
+                    item.Quantity = item.Quantity + orderItem.Quantity;
+                }
+            }
+            await _context.SaveChangesAsync();
+            return options;
         }
     }
 }
