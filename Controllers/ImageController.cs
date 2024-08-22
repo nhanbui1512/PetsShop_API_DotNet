@@ -35,18 +35,37 @@ namespace petshop.Controllers
         }
 
         [HttpPost]
-        [Route("upload")]
         public async Task<IActionResult> UploadImage([FromForm] UploadImageDTO data)
         {
             if (data?.Image?.Length > 0)
             {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", data.Image.FileName);
-                using (var stream = System.IO.File.Create(path))
+                // Tạo tên file duy nhất bằng GUID
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(data.Image.FileName)}";
+
+                // Đường dẫn lưu file
+                var filePath = Path.Combine("uploads", fileName);
+                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", filePath);
+
+                // Chuyển file thành binary
+                byte[] fileBytes;
+                using (var memoryStream = new MemoryStream())
                 {
-                    await data.Image.CopyToAsync(stream);
+                    await data.Image.CopyToAsync(memoryStream);
+                    fileBytes = memoryStream.ToArray();
                 }
+
+                // Lưu file dưới dạng binary
+                await System.IO.File.WriteAllBytesAsync(fullPath, fileBytes);
+                var imageLinks = new List<string>(){
+                    filePath
+                };
+
+                var result = await _imageRepository.AddImages(imageLinks, data.ProductId);
+                if (result == null) return NotFound(new { message = "Not found product" });
+
+                return Ok(result);
             }
-            return Ok();
+            return BadRequest(new { message = "Not found image" });
         }
 
     }

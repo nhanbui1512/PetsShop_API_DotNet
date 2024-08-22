@@ -12,10 +12,24 @@ namespace PetsShop_API_DotNet.Repository
 
         public async Task<List<ProductImage>?> AddImages(List<string> Urls, int productId)
         {
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null) return null;
+
             var listImage = Urls.ToProductImages(productId: productId);
             _context.ProductImages.AddRange(listImage);
             await _context.SaveChangesAsync();
-            return listImage;
+
+            var result = new List<ProductImage>();
+            foreach (var item in listImage)
+            {
+                result.Add(new ProductImage
+                {
+                    Id = item.Id,
+                    FileURL = item.FileURL,
+                    ProductId = item.ProductId
+                });
+            }
+            return result;
         }
         public async Task<List<ProductImage>?> GetImages(int productId)
         {
