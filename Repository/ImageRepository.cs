@@ -47,6 +47,13 @@ namespace PetsShop_API_DotNet.Repository
             return true;
         }
 
-
+        public async Task<ProductImage?> UpdateImage(string filePath, int imageId)
+        {
+            var image = await _context.ProductImages.FindAsync(imageId);
+            if (image == null) return null;
+            image.FileURL = filePath;
+            await _context.SaveChangesAsync();
+            return image;
+        }
     }
 }

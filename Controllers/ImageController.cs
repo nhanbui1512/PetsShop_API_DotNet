@@ -67,6 +67,39 @@ namespace petshop.Controllers
             }
             return BadRequest(new { message = "Not found image" });
         }
+        [HttpPatch]
+        [Route("{image_id}")]
+        public async Task<IActionResult> UpdateImage([FromForm] UpdateImageDTO data, [FromRoute, Range(1, int.MaxValue)] int image_id)
+        {
+
+            if (data?.Image?.Length > 0)
+            {
+                // Tạo tên file duy nhất bằng GUID
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(data.Image.FileName)}";
+
+                // Đường dẫn lưu file
+                var filePath = Path.Combine("uploads", fileName);
+                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", filePath);
+
+                // Chuyển file thành binary
+                byte[] fileBytes;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await data.Image.CopyToAsync(memoryStream);
+                    fileBytes = memoryStream.ToArray();
+                }
+
+                // Lưu file dưới dạng binary
+                await System.IO.File.WriteAllBytesAsync(fullPath, fileBytes);
+
+                var result = await _imageRepository.UpdateImage(filePath, image_id);
+                if (result == null) return NotFound(new { message = "Not found product" });
+
+                return Ok(result);
+            }
+            return BadRequest(new { message = "Not found image" });
+
+        }
 
     }
 }
