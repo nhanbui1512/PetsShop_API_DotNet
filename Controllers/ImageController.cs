@@ -65,7 +65,7 @@ namespace petshop.Controllers
 
                 return Ok(result);
             }
-            return BadRequest(new { message = "Not found image" });
+            return BadRequest(new { message = "Not found image file" });
         }
         [HttpPatch]
         [Route("{image_id}")]
@@ -93,11 +93,11 @@ namespace petshop.Controllers
                 await System.IO.File.WriteAllBytesAsync(fullPath, fileBytes);
 
                 var result = await _imageRepository.UpdateImage(filePath, image_id);
-                if (result == null) return NotFound(new { message = "Not found product" });
+                if (result == null) return NotFound(new { message = "Not found image" });
 
                 return Ok(result);
             }
-            return BadRequest(new { message = "Not found image" });
+            return BadRequest(new { message = "Not found image file" });
 
         }
 
