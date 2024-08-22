@@ -73,5 +73,12 @@ namespace PetsShop_API_DotNet.Controllers
 
             return Ok(new { status = "Success", newData = result });
         }
+        [HttpDelete]
+        [Route("{id_category}")]
+        public async Task<IActionResult> DeleteCategory([FromRoute] int id_category)
+        {
+            _categoryRepository.Remove(id_category);
+            return Ok();
+        }
     }
 }
