@@ -30,5 +30,11 @@ namespace PetsShop_API_DotNet.Repository
             await _context.SaveChangesAsync();
             return newBills;
         }
+
+        public async Task<List<Bill>?> GetBills()
+        {
+            var bills = await _context.Bills.ToListAsync();
+            return bills;
+        }
     }
 }
