@@ -65,21 +65,9 @@ namespace PetsShop_API_DotNet.Controllers
             if (form.RoleId == null) return new BadRequestObjectResult(new { RoleId = "Not Validation", status = 409 }) { StatusCode = 409 };
             if (form.RoleName == null || form.RoleName.Trim() == "") return new BadRequestObjectResult(new { roleName = "Not Validation", status = 409 }) { StatusCode = 409 };
 
-            var role = await _dbContext.Roles.FirstOrDefaultAsync(role => role.Id == form.RoleId);
-            if (role == null) return NotFound();
-
-            role.RoleName = form.RoleName;
-            role.UpdateAt = DateTime.Now;
-            await _dbContext.SaveChangesAsync();
-
-            return Ok(new
-            {
-                id = role.Id,
-                roleName = role.RoleName,
-                createAt = role.CreateAt,
-                updateAt = role.UpdateAt
-            });
-
+            var role = await _roleRepository.Update(form.RoleId, form.RoleName);
+            if (role == null) return NotFound(new { message = "Not found role", status = 404 });
+            return Ok(role);
         }
     }
 }
