@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Dtos.Role;
+using petshop.Interfaces;
 using PetsShop_API_DotNet.Dtos.Role;
 using PetsShop_API_DotNet.Mappers;
 using PetsShop_API_DotNet.Models;
@@ -16,17 +17,19 @@ namespace PetsShop_API_DotNet.Controllers
     {
 
         private readonly AppDbContext _dbContext;
+        private readonly IRoleRepository _roleRepository;
 
-        public RoleController(AppDbContext context)
+        public RoleController(AppDbContext context, IRoleRepository roleRepository)
         {
             _dbContext = context;
+            _roleRepository = roleRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetRoles()
         {
             try
             {
-                var result = await _dbContext.Roles.Select(role => new { role.Id, role.RoleName, role.CreateAt, role.UpdateAt }).ToListAsync();
+                var result = await _roleRepository.GetRoles();
                 return Ok(result);
             }
             catch (Exception e)
