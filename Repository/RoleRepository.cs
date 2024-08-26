@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Interfaces;
 using PetsShop_API_DotNet.Models;
@@ -12,29 +13,46 @@ namespace petshop.Repository
       this._context = context;
     }
 
-    public Task<Role> CreateRole(string roleName)
+    public async Task<Role> CreateRole(string roleName)
     {
-      throw new NotImplementedException();
+      Role newRole = new Role()
+      {
+        RoleName = roleName
+      };
+      _context.Roles.Add(newRole);
+      await _context.SaveChangesAsync();
+      return newRole;
     }
 
-    public Task<bool> Delete(int roleId)
+    public async Task<bool> Delete(int roleId)
     {
-      throw new NotImplementedException();
+      var role = await _context.Roles.FirstOrDefaultAsync(role => role.Id == roleId);
+      if (role == null) return false;
+      _context.Roles.Remove(role);
+      await _context.SaveChangesAsync();
+      return true;
     }
 
-    public Task<Role?> GetById(int roleId)
+    public async Task<Role?> GetById(int roleId)
     {
-      throw new NotImplementedException();
+      var role = await _context.Roles.FirstOrDefaultAsync(role => role.Id == roleId);
+      if (role == null) return null;
+      return role;
     }
 
-    public Task<List<Role>> GetRoles()
+    public async Task<List<Role>> GetRoles()
     {
-      throw new NotImplementedException();
+      var roles = await _context.Roles.ToListAsync();
+      return roles;
     }
 
-    public Task<Role> Update(int roleId, string nameRole)
+    public async Task<Role?> Update(int roleId, string roleName)
     {
-      throw new NotImplementedException();
+      var role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
+      if (role == null) return null;
+      role.RoleName = roleName;
+      await _context.SaveChangesAsync();
+      return role;
     }
   }
 }
