@@ -109,5 +109,15 @@ namespace petshop.Repository
         {
             throw new NotImplementedException();
         }
+
+        public async Task<User?> UpdateAvatar(string filePath, int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null) return null;
+            user.Avatar = filePath;
+            user.UpdatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return user;
+        }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
+using petshop.Dtos.Image;
 using petshop.Dtos.User;
 using petshop.Interfaces;
 
@@ -106,6 +107,43 @@ namespace petshop.Controllers
 
             return Ok(newData);
         }
+
+        [HttpPatch]
+        [Authorize]
+        [Route("change-avatar")]
+        public async Task<IActionResult> UpdateAvatar([FromForm] UpdateImageDTO data)
+        {
+
+            var context = HttpContext;
+            var user = context.User.Claims;
+            var userId = user.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null) return NotFound(new { message = "Not found user", status = StatusCodes.Status404NotFound });
+
+
+            if (data?.Image?.Length > 0)
+            {
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(data.Image.FileName)}";
+                var filePath = Path.Combine("uploads", fileName);
+                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", filePath);
+
+                byte[] fileBytes;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await data.Image.CopyToAsync(memoryStream);
+                    fileBytes = memoryStream.ToArray();
+                }
+
+                await System.IO.File.WriteAllBytesAsync(fullPath, fileBytes);
+                var result = await _repository.UpdateAvatar(filePath, int.Parse(userId));
+                if (result == null) return NotFound(new { message = "Not found user", status = StatusCodes.Status404NotFound });
+                result.AccessToken = null;
+                result.RefreshToken = null;
+                result.Password = null;
+                return Ok(result);
+            }
+            return BadRequest(new { message = "Nout found image file" });
+        }
+
 
     }
 }

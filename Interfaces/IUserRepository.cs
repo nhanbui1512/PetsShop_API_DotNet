@@ -17,5 +17,7 @@ namespace petshop.Interfaces
         Task<bool> Remove(int id);
         Task<bool?> ChangePassword(PasswordDTO data, int userId);
         Task<User?> SaveChange(User user);
+        Task<User?> UpdateAvatar(string filePath, int userId);
+
     }
 }
