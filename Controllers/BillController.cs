@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using PetsShop_API_DotNet.Interfaces;
 
@@ -20,6 +21,15 @@ namespace petshop.Controllers
     {
       var bills = await _billsRepository.GetBills();
       return Ok(bills);
+    }
+
+    [HttpGet]
+    [Route("{bill_id}")]
+    public async Task<IActionResult> GetBillById([FromRoute, Range(1, int.MaxValue)] int bill_id)
+    {
+      var bill = await _billsRepository.GetById(bill_id);
+      if (bill == null) return NotFound(new { message = "Not found bill", status = 404 });
+      return Ok(bill);
     }
   }
 }

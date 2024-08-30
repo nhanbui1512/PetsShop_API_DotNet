@@ -36,5 +36,21 @@ namespace PetsShop_API_DotNet.Repository
             var bills = await _context.Bills.ToListAsync();
             return bills;
         }
+
+        public async Task<Bill?> GetById(int billId)
+        {
+            var bill = context.Bills.AsQueryable();
+
+            bill = bill.Include(b => b.Order)
+                    .ThenInclude(o => o.OrderItems)
+                        .ThenInclude(oi => oi.Product)
+                .Include(b => b.Order)
+                    .ThenInclude(o => o.OrderItems)
+                        .ThenInclude(oi => oi.Option);
+
+            var result = await bill.FirstOrDefaultAsync();
+            if (result == null) return null;
+            return result;
+        }
     }
 }
