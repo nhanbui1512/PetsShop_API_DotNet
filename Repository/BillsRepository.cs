@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Models;
+using PetsShop_API_DotNet.Dtos.Helpers;
 using PetsShop_API_DotNet.Interfaces;
 
 namespace PetsShop_API_DotNet.Repository
@@ -13,6 +14,12 @@ namespace PetsShop_API_DotNet.Repository
 
     {
         private readonly AppDbContext _context = context;
+
+        public Task<bool?> Delete(int bill_id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Bill>?> GenerateBills(int[] orderIds)
         {
             var orders = await _context.Orders.Where(o => orderIds.Contains(o.Id)).ToListAsync();
@@ -49,8 +56,15 @@ namespace PetsShop_API_DotNet.Repository
                         .ThenInclude(oi => oi.Option);
 
             var result = await bill.FirstOrDefaultAsync();
+
+            foreach (var item in result.Order.OrderItems)
+            {
+                item.Product.SetPropertiesToNull<Product>(["DOM"]);
+            }
             if (result == null) return null;
             return result;
         }
+
+
     }
 }
