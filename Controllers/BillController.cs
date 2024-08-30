@@ -31,5 +31,13 @@ namespace petshop.Controllers
       if (bill == null) return NotFound(new { message = "Not found bill", status = 404 });
       return Ok(bill);
     }
+
+    [HttpDelete]
+    [Route("{bill_id}")]
+    public async Task<IActionResult> DeleteBill([FromRoute, Range(1, int.MaxValue)] int bill_id)
+    {
+
+      return Ok();
+    }
   }
 }
