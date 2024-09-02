@@ -36,7 +36,8 @@ namespace petshop.Controllers
     [Route("{bill_id}")]
     public async Task<IActionResult> DeleteBill([FromRoute, Range(1, int.MaxValue)] int bill_id)
     {
-
+      var result = await _billsRepository.Delete(bill_id);
+      if (result == null) return NotFound(new { message = "Not found bill", status = 404 });
       return Ok();
     }
   }

@@ -15,9 +15,14 @@ namespace PetsShop_API_DotNet.Repository
     {
         private readonly AppDbContext _context = context;
 
-        public Task<bool?> Delete(int bill_id)
+        public async Task<bool?> Delete(int bill_id)
         {
-            throw new NotImplementedException();
+            var bill = await _context.Bills.FirstOrDefaultAsync(b => b.Id == bill_id);
+            if (bill == null) return null;
+            _context.Bills.Remove(bill);
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<List<Bill>?> GenerateBills(int[] orderIds)

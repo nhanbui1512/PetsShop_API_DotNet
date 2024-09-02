@@ -8,7 +8,5 @@ namespace PetsShop_API_DotNet.Interfaces
         Task<List<Bill>?> GetBills();
         Task<Bill?> GetById(int billId);
         Task<bool?> Delete(int bill_id);
-
-
     }
 }
