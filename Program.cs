@@ -76,6 +76,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IBillsRepository, BillsRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 
 
 byte[] secretKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET_KEY"));
