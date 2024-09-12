@@ -21,7 +21,8 @@ namespace petshop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBlogs()
         {
-            return Ok();
+            var blogs = await _blogRepository.GetBlogs();
+            return Ok(blogs);
         }
 
         [HttpPost]

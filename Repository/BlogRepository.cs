@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using petshop.Data;
 using petshop.Interfaces;
 using PetsShop_API_DotNet.Models;
@@ -25,6 +26,13 @@ namespace petshop.Repository
             _context.Blogs.Add(blog);
             await _context.SaveChangesAsync();
             return blog;
+        }
+
+        public async Task<List<Blog>> GetBlogs()
+        {
+            var blog = _context.Blogs.AsQueryable();
+            var result = await blog.ToListAsync();
+            return result;
         }
     }
 }
