@@ -40,7 +40,16 @@ namespace petshop.Controllers
         [Route("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDTO data)
         {
-            return Ok();
+            try
+            {
+                var result = await _repository.RefreshAccessToken(data.RefreshToken);
+                return Ok();
+            }
+            catch (System.Exception)
+            {
+                return Ok();
+            }
+
         }
 
     }

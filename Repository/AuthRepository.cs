@@ -84,5 +84,16 @@ namespace petshop.Repository
                 RefreshToken = refreshTokenValue
             };
         }
+
+        public Task<UserDTO> RefreshAccessToken(string RefreshToken)
+        {
+
+            var issuer = _configuration["Jwt:Issuer"];
+            var audience = _configuration["Jwt:Audience"];
+            string refreshTokenKey = Environment.GetEnvironmentVariable("REFRESH_TOKEN_KEY");
+
+
+            return null;
+        }
     }
 }
