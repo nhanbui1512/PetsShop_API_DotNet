@@ -20,7 +20,7 @@ namespace petshop.Repository
         {
             _context = appContext;
         }
-        public async Task<PagedResult<GetProductDTO>> GetAllAsync(string search, int page, int limit, string? sortBy)
+        public async Task<PagedResult<GetProductDTO>> GetAllAsync(string search, int page, int limit, string sortBy)
         {
             var totalCount = await _context.Products.CountAsync();
 
@@ -91,7 +91,7 @@ namespace petshop.Repository
             return pagination;
         }
 
-        public async Task<GetProductDTO?> GetById(int Id)
+        public async Task<GetProductDTO> GetById(int Id)
         {
 
             var product = _context.Products.AsQueryable();
@@ -115,7 +115,7 @@ namespace petshop.Repository
             return result.ToProductDTO();
 
         }
-        public async Task<Product?> AddProduct(CreateProductDTO data)
+        public async Task<Product> AddProduct(CreateProductDTO data)
         {
             List<ProductImage> images = [];
             List<Option> options = [];

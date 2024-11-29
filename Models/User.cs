@@ -13,21 +13,21 @@ namespace petshop.Models
 
     [Column("first_name")]
     // [JsonPropertyName("FirstName")]
-    public string? FirstName { get; set; }
+    public string FirstName { get; set; }
     [Column("last_name")]
-    public string? LastName { get; set; }
+    public string LastName { get; set; }
     [Column("email")]
-    public string? Email { get; set; }
+    public string Email { get; set; }
     [Column("password")]
-    public string? Password { get; set; }
+    public string Password { get; set; }
     [Column("avatar")]
-    public string? Avatar { get; set; } = "DefaultAvatar.png";
+    public string Avatar { get; set; } = "DefaultAvatar.png";
 
     [Column("access_token")]
-    public string? AccessToken { get; set; }
+    public string AccessToken { get; set; }
 
     [Column("refresh_token")]
-    public string? RefreshToken { get; set; }
+    public string RefreshToken { get; set; }
 
     [Column("gender")]
     public bool Gender { get; set; }
@@ -39,7 +39,7 @@ namespace petshop.Models
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public int RoleId { get; set; }
-    public Role? Role { get; set; }
+    public Role Role { get; set; }
     public List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
     [NotMapped]

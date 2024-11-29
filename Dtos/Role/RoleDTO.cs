@@ -8,7 +8,7 @@ namespace petshop.Dtos.Role
     public class RoleDTO
     {
         public int Id { get; set; }
-        public string? RoleName { get; set; }
+        public string RoleName { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
     }

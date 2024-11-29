@@ -9,7 +9,7 @@ namespace petshop.Dtos.Option
         [Required]
         [MinLength(5, ErrorMessage = "Name must be characters")]
         [MaxLength(280, ErrorMessage = "Name cannot be over 280 characters")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
         [Required]
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }

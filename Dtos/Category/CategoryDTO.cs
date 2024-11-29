@@ -10,6 +10,6 @@ namespace petshop.Dtos.Category
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public List<GetProductDTO>? Products { get; set; }
+        public List<GetProductDTO> Products { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace petshop.Controllers
 
         [HttpGet]
         [SwaggerOperation(Summary = "Get list product")]
-        public async Task<IActionResult> GetProducts(string? sortBy, string? search, int page = 1, int limit = 5)
+        public async Task<IActionResult> GetProducts(string sortBy, string search, int page = 1, int limit = 5)
         {
 
             int maxLimit = 100;

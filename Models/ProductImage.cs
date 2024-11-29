@@ -14,9 +14,9 @@ namespace PetsShop_API_DotNet.Models
         [Key]
         public int Id { get; set; }
         [Column("file_url")]
-        public string? FileURL { get; set; }
+        public string FileURL { get; set; }
         public int ProductId { get; set; }
-        public virtual Product? Product { get; set; }
+        public virtual Product Product { get; set; }
 
     }
 }

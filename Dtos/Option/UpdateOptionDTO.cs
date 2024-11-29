@@ -8,7 +8,7 @@ namespace petshop.Dtos.Option
 {
     public class UpdateOptionDTO
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
 

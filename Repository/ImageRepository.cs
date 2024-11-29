@@ -10,7 +10,7 @@ namespace PetsShop_API_DotNet.Repository
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<List<ProductImage>?> AddImages(List<string> Urls, int productId)
+        public async Task<List<ProductImage>> AddImages(List<string> Urls, int productId)
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null) return null;
@@ -31,7 +31,7 @@ namespace PetsShop_API_DotNet.Repository
             }
             return result;
         }
-        public async Task<List<ProductImage>?> GetImages(int productId)
+        public async Task<List<ProductImage>> GetImages(int productId)
         {
             var images = await _context.ProductImages.Where(i => i.ProductId == productId).ToListAsync();
             return images;

@@ -11,7 +11,7 @@ namespace petshop.Models
         [Key]
         public int Id { get; set; }
         [Column("option_name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
         [Column("quantity")]
         public int Quantity { get; set; }
         [Column("price")]

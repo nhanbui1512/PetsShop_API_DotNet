@@ -6,6 +6,6 @@ namespace petshop.Dtos.Image
   {
     [Required]
     [ImageValidaton(new string[] { ".jpg", ".jpeg", ".png" })]
-    public IFormFile? Image { get; set; }
+    public IFormFile Image { get; set; }
   }
 }

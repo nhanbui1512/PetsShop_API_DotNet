@@ -10,9 +10,9 @@ namespace petshop.Models
         [Key]
         public int Id { get; set; }
         [Column("category_name")]
-        public string? CategoryName { get; set; }
+        public string CategoryName { get; set; }
         [Column("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         [Column("create_at")]
         public DateTime CreateAt { get; set; } = DateTime.Now;
         [Column("update_at")]

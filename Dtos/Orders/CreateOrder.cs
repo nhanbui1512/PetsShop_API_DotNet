@@ -8,14 +8,14 @@ namespace petshop.Dtos.Orders
         [Required]
         [MinLength(10)]
         [MaxLength(100)]
-        public string? UserName { get; set; }
+        public string UserName { get; set; }
         [Required]
         [MinLength(5)]
         [MaxLength(100)]
-        public string? Address { get; set; }
+        public string Address { get; set; }
         [Required]
         [MaxLength(11)]
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         [Required]
         [MinimumItems(1)]
         [MaximumItems(100)]
