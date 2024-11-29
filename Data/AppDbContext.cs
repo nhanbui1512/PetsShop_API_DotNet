@@ -34,6 +34,13 @@ namespace petshop.Data
         .HasForeignKey(c => c.RoleId)
         .OnDelete(DeleteBehavior.Cascade); // Thiết lập xóa theo kiểu Cascade
 
+
+
+      modelBuilder.Entity<User>()
+        .HasMany(p => p.RefreshTokens)
+        .WithOne(c => c.User)
+        .HasForeignKey(c => c.UserId)
+        .OnDelete(DeleteBehavior.Cascade); // Thiết lập xóa theo kiểu Cascade
     }
 
     public DbSet<User> Users { get; set; }
@@ -46,6 +53,7 @@ namespace petshop.Data
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<Bill> Bills { get; set; }
     public DbSet<Blog> Blogs { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
   }
 }

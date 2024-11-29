@@ -40,6 +40,8 @@ namespace petshop.Models
 
     public int RoleId { get; set; }
     public Role? Role { get; set; }
+    public List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+
     [NotMapped]
     public string FullName
     {

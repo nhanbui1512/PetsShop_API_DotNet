@@ -1,0 +1,6 @@
+1. Viết lại logic login với nhiều refreshTOken
+2. CRUD cho breeds
+3. Thêm chức năng theo dõi đơn hàng: Thiết kế db 
+4. Thêm phần thống kê 
+5. Phân quyền theo permission
+6. Quên mật khẩu

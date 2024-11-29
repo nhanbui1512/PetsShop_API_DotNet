@@ -7,6 +7,7 @@ using petshop.Data;
 using petshop.Dtos.Category;
 using petshop.Dtos.User;
 using petshop.Interfaces;
+using PetsShop_API_DotNet.Models;
 
 namespace petshop.Repository
 {
@@ -54,10 +55,18 @@ namespace petshop.Repository
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(accessToken);
             string refreshTokenValue = new JwtSecurityTokenHandler().WriteToken(refreshToken);
 
-            user.AccessToken = tokenValue;
-            if (user.RefreshToken == null) user.RefreshToken = refreshTokenValue;
-            await _context.SaveChangesAsync();
 
+
+            RefreshToken newRefreshToken = new RefreshToken
+            {
+                TokenValue = refreshTokenValue,
+                ExpireTime = DateTime.UtcNow.AddDays(30),
+                User = user,
+
+            };
+
+            _context.RefreshTokens.Add(newRefreshToken);
+            await _context.SaveChangesAsync();
             return new UserDTO
             {
                 Id = user.Id,
