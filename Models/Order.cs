@@ -10,11 +10,11 @@ namespace petshop.Models
         [Key]
         public int Id { get; set; }
         [Column("user_name")]
-        public string? UserName { get; set; }
+        public string UserName { get; set; }
         [Column("phone_number")]
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         [Column("address")]
-        public string? Address { get; set; }
+        public string Address { get; set; }
         [Column("total")]
         public decimal Total { get; set; }
         [Column("created_at")]
@@ -23,7 +23,7 @@ namespace petshop.Models
         public DateTime UpdateAt { get; set; }
         [Column("status")]
         public string Status { get; set; } = "Processing";
-        public List<OrderItem>? OrderItems { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
 
         [NotMapped]
         public string CreatedAtStr

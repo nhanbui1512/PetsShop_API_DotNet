@@ -33,7 +33,7 @@ namespace petshop.Repository
       return true;
     }
 
-    public async Task<Role?> GetById(int roleId)
+    public async Task<Role> GetById(int roleId)
     {
       var role = await _context.Roles.FirstOrDefaultAsync(role => role.Id == roleId);
       if (role == null) return null;
@@ -46,7 +46,7 @@ namespace petshop.Repository
       return roles;
     }
 
-    public async Task<Role?> Update(int roleId, string roleName)
+    public async Task<Role> Update(int roleId, string roleName)
     {
       var role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
       if (role == null) return null;

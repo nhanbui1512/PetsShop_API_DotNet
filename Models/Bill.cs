@@ -19,7 +19,7 @@ namespace petshop.Models
     public DateTime PayAt { get; set; } = DateTime.Now;
     [Column("updated_at")]
     public DateTime UpdatedAt { get; set; }
-    public Order? Order { get; set; }
+    public Order Order { get; set; }
     public int OrderId { get; set; }
   }
 }

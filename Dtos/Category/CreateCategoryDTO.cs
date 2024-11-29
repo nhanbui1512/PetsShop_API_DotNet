@@ -10,10 +10,10 @@ namespace petshop.Dtos.Product
     [Required]
     [MinLength(5)]
     [MaxLength(150)]
-    public string? CategoryName { get; set; }
+    public string CategoryName { get; set; }
     [Required]
     [MinLength(5)]
     [MaxLength(150)]
-    public string? Description { get; set; }
+    public string Description { get; set; }
   }
 }

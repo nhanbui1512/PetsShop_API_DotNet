@@ -11,7 +11,7 @@ namespace petshop.Dtos.User
         [Required]
         [Range(1, int.MaxValue)]
         public int PerPage { get; set; }
-        public string? Sort { get; set; }
-        public string? Search { get; set; }
+        public string Sort { get; set; }
+        public string Search { get; set; }
     }
 }

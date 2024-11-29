@@ -12,7 +12,7 @@ namespace petshop.Repository
     public class OrderRepository(AppDbContext context) : IOrderRepository
     {
         private readonly AppDbContext _context = context;
-        public async Task<Order?> Create(Order data)
+        public async Task<Order> Create(Order data)
         {
             var orderItems = new List<OrderItem>();
 
@@ -69,7 +69,7 @@ namespace petshop.Repository
             }
         }
 
-        public async Task<OrderDTO?> GetById(int id)
+        public async Task<OrderDTO> GetById(int id)
         {
             var order = _context.Orders.AsQueryable();
 
@@ -85,7 +85,7 @@ namespace petshop.Repository
             return result.ToOrderDTO();
         }
 
-        public async Task<PagedResult<Order>?> GetOrders(int page, int perPage, string sortBy, string search, string filter)
+        public async Task<PagedResult<Order>> GetOrders(int page, int perPage, string sortBy, string search, string filter)
         {
             var total = await _context.Orders.CountAsync();
             var orders = _context.Orders.AsQueryable();
@@ -148,7 +148,7 @@ namespace petshop.Repository
             return paging;
         }
 
-        public async Task<List<Order>?> PrepareOrders(int[] OrderIds)
+        public async Task<List<Order>> PrepareOrders(int[] OrderIds)
         {
             var orders = await _context.Orders.Where(p => OrderIds.Contains(p.Id)).ToListAsync();
             if (orders.Count() == 0) return null;
@@ -162,7 +162,7 @@ namespace petshop.Repository
             await _context.SaveChangesAsync();
             return orders;
         }
-        public async Task<List<Order>?> ConfirmOrders(int[] orderIds)
+        public async Task<List<Order>> ConfirmOrders(int[] orderIds)
         {
             var orders = await _context.Orders.Where(order => orderIds.Contains(order.Id)).ToListAsync();
             if (orders == null || orders.Count() == 0) return null;
@@ -175,7 +175,7 @@ namespace petshop.Repository
             return orders;
         }
 
-        public async Task<List<Order>?> DeleteOrders(int[] orderIds)
+        public async Task<List<Order>> DeleteOrders(int[] orderIds)
         {
             var result = new List<Order>();
             var orders = await _context.Orders.Where(o => orderIds.Contains(o.Id)).ToListAsync();

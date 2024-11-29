@@ -18,7 +18,7 @@ namespace petshop.Repository
         {
             _context = context;
         }
-        public async Task<OptionDTO?> Add(CreateOptionDTO data, int? productId)
+        public async Task<OptionDTO> Add(CreateOptionDTO data, int? productId)
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null) return null;
@@ -42,14 +42,14 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<OptionDTO?> GetById(int id)
+        public async Task<OptionDTO> GetById(int id)
         {
             var option = await _context.Options.FindAsync(id);
             if (option == null) return null;
             return option.ToOptionDTO();
         }
 
-        public async Task<List<OptionDTO>?> GetByProductId(int productId)
+        public async Task<List<OptionDTO>> GetByProductId(int productId)
         {
 
             var product = await _context.Products.Include(p => p.Options).FirstOrDefaultAsync(p => p.Id == productId);
@@ -81,7 +81,7 @@ namespace petshop.Repository
             return true;
         }
 
-        public async Task<OptionDTO?> Update(UpdateOptionDTO data, int id)
+        public async Task<OptionDTO> Update(UpdateOptionDTO data, int id)
         {
             var option = await _context.Options.FindAsync(id);
             if (option == null) return null;
@@ -94,13 +94,13 @@ namespace petshop.Repository
             return option.ToOptionDTO();
 
         }
-        public async Task<List<OptionDTO>?> GetOptionsByIds(int[] ids)
+        public async Task<List<OptionDTO>> GetOptionsByIds(int[] ids)
         {
             var options = await _context.Options.Where(o => ids.Contains(o.Id)).Select(o => o.ToOptionDTO()).ToListAsync();
             return options;
         }
 
-        public async Task<List<OptionDTO>?> DecreaseQuantity(List<OrderItem> orderItems)
+        public async Task<List<OptionDTO>> DecreaseQuantity(List<OrderItem> orderItems)
         {
             var ids = orderItems.Select(o => o.OptionId).ToArray();
             var options = await _context.Options.Where(o => ids.Contains(o.Id)).ToListAsync();
@@ -122,7 +122,7 @@ namespace petshop.Repository
             return updatedOptions;
         }
 
-        public Task<List<Option>?> UpdateOptions(List<Option> data)
+        public Task<List<Option>> UpdateOptions(List<Option> data)
         {
             var optionIds = data.Select(o => o.Id).ToArray();
             var options = _context.Options.Where(o => optionIds.Contains(o.Id));
@@ -130,7 +130,7 @@ namespace petshop.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<Option>?> IncreaseQuantity(List<OrderItem> orderItems)
+        public async Task<List<Option>> IncreaseQuantity(List<OrderItem> orderItems)
         {
             var optionIds = orderItems.Select(o => o.OptionId).ToList();
             var options = await _context.Options.Where(o => optionIds.Contains(o.Id)).ToListAsync();

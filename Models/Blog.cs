@@ -13,13 +13,13 @@ namespace PetsShop_API_DotNet.Models
     [Key]
     public int Id { get; set; }
     [Column("title")]
-    public string? Title { get; set; }
+    public string Title { get; set; }
     [Column("description")]
-    public string? Description { get; set; }
+    public string Description { get; set; }
     [Column("author")]
-    public string? Author { get; set; }
+    public string Author { get; set; }
     [Column("DOM")]
-    public string? DOM { get; set; }
+    public string DOM { get; set; }
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     [Column("updated_at")]
