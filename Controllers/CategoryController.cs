@@ -75,7 +75,7 @@ namespace PetsShop_API_DotNet.Controllers
         }
         [HttpDelete]
         [Route("{id_category}")]
-        public async Task<IActionResult> DeleteCategory([FromRoute] int id_category)
+        public IActionResult DeleteCategory([FromRoute] int id_category)
         {
             _categoryRepository.Remove(id_category);
             return Ok();

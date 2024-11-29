@@ -5,7 +5,7 @@ namespace petshop.Dtos.Category
   public class RefreshTokenDTO
   {
     [Required]
-    public string? RefreshToken { get; set; }
+    public string RefreshToken { get; set; }
 
   }
 }

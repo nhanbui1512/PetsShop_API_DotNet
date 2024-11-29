@@ -20,7 +20,7 @@ namespace petshop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBlogs([FromQuery] string? search, [FromQuery] string? sort, [FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, int.MaxValue)] int perPage = 10)
+        public async Task<IActionResult> GetBlogs([FromQuery] string search, [FromQuery] string sort, [FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, int.MaxValue)] int perPage = 10)
         {
             var blogs = await _blogRepository.GetBlogs(search, sort, page, perPage);
             return Ok(blogs);

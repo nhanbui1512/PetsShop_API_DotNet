@@ -9,6 +9,6 @@ namespace petshop.Interfaces
 {
     public interface IAuthRepository
     {
-        Task<UserDTO?> CheckLogin(LoginDTO data);
+        Task<UserDTO> CheckLogin(LoginDTO data);
     }
 }

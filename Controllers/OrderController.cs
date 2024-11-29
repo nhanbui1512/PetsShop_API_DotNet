@@ -92,7 +92,7 @@ namespace petshop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOrders([FromQuery] string? search, [FromQuery] string? sortBy, [FromQuery] string? filter, [FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, 100)] int perPage = 10)
+        public async Task<IActionResult> GetOrders([FromQuery] string search, [FromQuery] string sortBy, [FromQuery] string filter, [FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, 100)] int perPage = 10)
         {
             var orders = await _orderRepository.GetOrders(page, perPage, sortBy, search, filter);
             return Ok(orders);

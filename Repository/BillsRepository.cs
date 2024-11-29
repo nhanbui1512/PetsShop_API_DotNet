@@ -10,10 +10,14 @@ using PetsShop_API_DotNet.Interfaces;
 
 namespace PetsShop_API_DotNet.Repository
 {
-    public class BillsRepository(AppDbContext context) : IBillsRepository
-
+    public class BillsRepository : IBillsRepository
     {
-        private readonly AppDbContext _context = context;
+
+        public BillsRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+        private readonly AppDbContext _context;
 
         public async Task<bool?> Delete(int bill_id)
         {
@@ -25,7 +29,7 @@ namespace PetsShop_API_DotNet.Repository
 
         }
 
-        public async Task<List<Bill>?> GenerateBills(int[] orderIds)
+        public async Task<List<Bill>> GenerateBills(int[] orderIds)
         {
             var orders = await _context.Orders.Where(o => orderIds.Contains(o.Id)).ToListAsync();
             if (orders == null || orders.Count() == 0) return null;
@@ -43,15 +47,15 @@ namespace PetsShop_API_DotNet.Repository
             return newBills;
         }
 
-        public async Task<List<Bill>?> GetBills()
+        public async Task<List<Bill>> GetBills()
         {
             var bills = await _context.Bills.ToListAsync();
             return bills;
         }
 
-        public async Task<Bill?> GetById(int billId)
+        public async Task<Bill> GetById(int billId)
         {
-            var bill = context.Bills.AsQueryable();
+            var bill = _context.Bills.AsQueryable();
 
             bill = bill.Include(b => b.Order)
                     .ThenInclude(o => o.OrderItems)

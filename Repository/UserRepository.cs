@@ -50,7 +50,7 @@ namespace petshop.Repository
             return paging;
         }
 
-        public async Task<UserDTO?> GetById(int id)
+        public async Task<UserDTO> GetById(int id)
         {
             var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
 
@@ -81,7 +81,7 @@ namespace petshop.Repository
 
         }
 
-        public async Task<UserDTO?> Update(UpdateUserDTO data, int userId)
+        public async Task<UserDTO> Update(UpdateUserDTO data, int userId)
         {
             var user = await _context.Users.FindAsync(userId);
             if (user == null) return null;
@@ -105,12 +105,12 @@ namespace petshop.Repository
             return true;
         }
 
-        public Task<User?> SaveChange(User user)
+        public Task<User> SaveChange(User user)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<User?> UpdateAvatar(string filePath, int userId)
+        public async Task<User> UpdateAvatar(string filePath, int userId)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null) return null;

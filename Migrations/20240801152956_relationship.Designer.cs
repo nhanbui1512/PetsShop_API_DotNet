@@ -14,7 +14,6 @@ namespace petshop.Migrations
     [Migration("20240801152956_relationship")]
     partial class relationship
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

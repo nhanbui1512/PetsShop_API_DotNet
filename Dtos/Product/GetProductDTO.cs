@@ -11,11 +11,11 @@ namespace PetsShop_API_DotNet.Dtos.Product
     {
 
         public int Id { get; set; }
-        public string? ProductName { get; set; }
+        public string ProductName { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
-        public string? DOM { get; set; }
-        public string? Description { get; set; }
+        public string DOM { get; set; }
+        public string Description { get; set; }
         public List<Option> Options { get; set; } = new List<Option>();
         public List<string> Images { get; set; } = new List<string>();
 

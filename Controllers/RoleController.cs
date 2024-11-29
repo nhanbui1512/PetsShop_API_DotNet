@@ -44,7 +44,7 @@ namespace PetsShop_API_DotNet.Controllers
         {
             try
             {
-                string? name = formData.RoleName;
+                string name = formData.RoleName;
                 if (name == null) return new JsonResult(new { RoleName = "Not validation" }) { StatusCode = 403 };
 
                 var isExist = await _dbContext.Roles.FirstOrDefaultAsync(role => role.RoleName == name);
@@ -62,7 +62,7 @@ namespace PetsShop_API_DotNet.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleDTO form)
         {
-            if (form.RoleId == null) return new BadRequestObjectResult(new { RoleId = "Not Validation", status = 409 }) { StatusCode = 409 };
+            if (form?.RoleId == null) return new BadRequestObjectResult(new { RoleId = "Not Validation", status = 409 }) { StatusCode = 409 };
             if (form.RoleName == null || form.RoleName.Trim() == "") return new BadRequestObjectResult(new { roleName = "Not Validation", status = 409 }) { StatusCode = 409 };
 
             var role = await _roleRepository.Update(form.RoleId, form.RoleName);
