@@ -1,14 +1,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using api.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using petshop.Data;
 using petshop.Dtos.Category;
 using petshop.Dtos.User;
 using petshop.Interfaces;
-using petshop.Models;
 
 namespace petshop.Repository
 {
@@ -16,10 +14,21 @@ namespace petshop.Repository
     {
         private readonly AppDbContext _context = context;
         private readonly IConfiguration _configuration = configuration;
-        public async Task<UserDTO?> CheckLogin(LoginDTO data)
+        public async Task<UserDTO> CheckLogin(LoginDTO data)
         {
-            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Password == data.Password && u.Email == data.Email);
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == data.Email);
             if (user == null) return null;
+
+            PasswordService passwordService = new PasswordService();
+            string hashedPassword = passwordService.HashPassword(user.Password);
+            try
+            {
+                passwordService.VerifyPassword(user.Password, data.Password);
+            }
+            catch (System.Exception)
+            {
+                return null;
+            }
 
             var cailms = new[]{
                 new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:subject"]),

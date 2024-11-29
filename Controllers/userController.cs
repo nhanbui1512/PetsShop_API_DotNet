@@ -46,8 +46,11 @@ namespace petshop.Controllers
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO formData)
         {
 
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            PasswordService passwordService = new PasswordService();
             string email = formData.Email;
             var isExist = await _dbContext.Users.SingleOrDefaultAsync(user => user.Email == email);
             if (isExist != null)
@@ -60,6 +63,11 @@ namespace petshop.Controllers
                 var role = await _dbContext.Roles.FindAsync(userObject.RoleId);
                 if (role == null) return NotFound(new { role = "Not found role" });
                 userObject.Role = role;
+                if (userObject.Password != null)
+                {
+                    string hashedPassword = passwordService.HashPassword(userObject.Password);
+                    userObject.Password = hashedPassword;
+                }
                 _dbContext.Users.Add(userObject);
                 await _dbContext.SaveChangesAsync();
                 return CreatedAtAction(nameof(GetUserById), new { id = userObject.Id }, userObject);
@@ -70,6 +78,8 @@ namespace petshop.Controllers
         [HttpPatch]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updateUser)
         {
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var context = HttpContext;
             var user = context.User.Claims;

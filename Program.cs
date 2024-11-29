@@ -1,5 +1,4 @@
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +65,15 @@ builder.Services.AddControllers().AddJsonOptions(option =>
     option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     option.JsonSerializerOptions.MaxDepth = 64;
 });
+
+// builder.Services.AddControllers() // validate dữ liệu tự động
+//     .ConfigureApiBehaviorOptions(options =>
+//     {
+//         options.InvalidModelStateResponseFactory = context =>
+//         {
+//             return new BadRequestObjectResult(context.ModelState);
+//         };
+//     });
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

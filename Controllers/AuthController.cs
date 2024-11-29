@@ -40,6 +40,7 @@ namespace petshop.Controllers
         [Route("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDTO data)
         {
+
             return Ok();
         }
 
